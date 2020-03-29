@@ -38,7 +38,7 @@ class main_listener implements EventSubscriberInterface
 		$this->config = $config;
 		$this->db = $db;
 		$this->root_path = $root_path;
-        $this->ckeditor_path = realpath(__DIR__ . '/../styles/all/template/js/ckeditor/');
+        $this->ckeditor_path = realpath(__DIR__ . '/../styles/all/template/js/ckeditor');
         $this->is_viewtopic = $user->page['page_name'] === 'viewtopic.php';
 	}
 
@@ -52,7 +52,7 @@ class main_listener implements EventSubscriberInterface
 			return false;
 		}
 
-		return is_readable($this->ckeditor_path . "lang/{$lang}.js") ? $lang : false;
+		return is_readable($this->ckeditor_path . "/lang/{$lang}.js") ? $lang : false;
 	}
 
     private function _fix_smileys()
@@ -101,8 +101,7 @@ class main_listener implements EventSubscriberInterface
             [ 'name' => 'styles' ],
             [ 'name' => 'colors' ],
             [ 'name' => 'paragraph',   'groups' => [ 'align', 'list', 'indent', 'blocks', 'bidi' ] ],
-            [ 'name' => 'editing',     'groups' => [ 'find', 'selection', 'spellchecker' ] ],
-            [ 'name' => 'clipboard',   'groups' => [ 'cleanup', 'clipboard', 'undo' ] ],
+            [ 'name' => 'editing',     'groups' => [ 'find', 'selection', 'spellchecker', 'cleanup', 'undo'  ] ],
             [ 'name' => 'forms' ],
             [ 'name' => 'links' ],
             [ 'name' => 'insert' ],
@@ -119,6 +118,48 @@ class main_listener implements EventSubscriberInterface
         $remove_buttons_normal_toolbar = 'BGColor,Anchor,Font,Indent,Outdent';
         $remove_buttons_quick_toolbar  = 'BGColor,Anchor,Font,Indent,Outdent,Table,HorizontalRule';
 
+        // code snippet
+        // first install this!!!
+        // https://github.com/s9e/phpbb-ext-highlighter
+        $code_snippet_theme = 'monokai_sublime';
+        $code_snippet_languages = [
+            'arduino' => 'Arduino',
+            'autoit' => 'Autoit',
+            'bash' => 'Bash',
+            'basic' => 'Basic',
+            'cpp' => 'C/C++',
+            'cs' => 'C#',
+            'css' => 'CSS',
+            'delphi' => 'Delphi',
+            'diff' => 'Diff',
+            'dockerfile' => 'Dockerfile',
+            'dos' => 'Dos',
+            'go' => 'Go',
+            'http' => 'Http',
+            'ini' => 'INI',
+            'java' => 'Java',
+            'javascript' => 'Javascript',
+            'json' => 'JSON',
+            'less' => 'Less',
+            'lua' => 'Lua',
+            'makefile' => 'Makefile',
+            'markdown' => 'Markdown',
+            'nginx' => 'Nginx',
+            'php' => 'Php',
+            'powershell' => 'Powershell',
+            'python' => 'Python',
+            'ruby' => 'Ruby',
+            'rust' => 'Rust',
+            'scss' => 'Scss',
+            'shell' => 'Shell',
+            'sql' => 'SQL',
+            'typescript' => 'Typescript',
+            'vbnet' => 'VB .NET',
+            'vbscript' => 'VB Script',
+            'xml' => 'Xml',
+            'yaml' => 'Yaml',
+        ];
+
 		$this->template->assign_vars(array(
 		    'CKE_STATUS' => true,
 			'CKE_CONFIG' => json_encode([
@@ -126,6 +167,8 @@ class main_listener implements EventSubscriberInterface
                 'maxFontSize' => $this->config['max_post_font_size'],
                 'toolbarGroups' => $this->is_viewtopic ? $editor_quick_toolbar : $editor_normal_toolbar,
                 'removeButtons' => $this->is_viewtopic ? $remove_buttons_quick_toolbar : $remove_buttons_normal_toolbar,
+                'codeSnippetTheme' => $code_snippet_theme,
+                'codeSnippetLanguages' => $code_snippet_languages,
             ]),
         ));
 

@@ -75,11 +75,14 @@ function dsrCkeditorGenSmileyConfig() {
 				list: 'ol', hr: 'hr', table: 'table', td: 'td', tr: 'tr'
 			},
 			bbcode_convertMap: {
-				strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', s: 's', sub: 'sub', sup: 'sup', code: 'code', li: '*'
+				strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', s: 's', sub: 'sub', sup: 'sup', li: '*'
 			},
 			bbcode_tagnameMap: {
 				strong: 'b', em: 'i', u: 'u', s: 's', sub: 'sub', sup: 'sup', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link',
 				img: 'img', blockquote: 'quote', hr: 'hr', table: 'table', td: 'td', tr: 'tr'
+			},
+			bbcode_attributesMap: {
+				url: 'href', email: 'mailhref', quote: 'cite', list: 'listType', code: 'data-cke-code-lang'
 			},
 			bbcode_smileyMap: smiley_config.relations,
 			customBBcode_codes: ckeConfig.defaultCustomBBcode,
@@ -89,6 +92,22 @@ function dsrCkeditorGenSmileyConfig() {
 			smiley_path: './',
 			autosave_saveDetectionSelectors: 'input[name*="post"],input[name*="save"],input[name*="preview"]',
 			autosave_saveOnDestroy: false,
+			codeSnippet_theme: ckeConfig.codeSnippetTheme,
+			codeSnippet_languages: ckeConfig.codeSnippetLanguages,
+			/*
+				// mentions
+				mentions: [
+					{
+						feed: [ 'Anna', 'Thomas', 'John' ],
+						marker: '@'
+					},
+				],
+
+				// others
+				image_prefillDimensions: false,
+				imgurClientId: rinimgur,
+				disableNativeSpellChecker: false,
+			*/
 			on: {
 				setData: function(evt) {
 					// TODO change this!

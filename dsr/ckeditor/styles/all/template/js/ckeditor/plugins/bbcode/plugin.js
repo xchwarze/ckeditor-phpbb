@@ -515,6 +515,13 @@ CKEDITOR.config.bbcode_smileyMap = {
 				breakBeforeClose: 0,
 				breakAfterClose: 1
 			} );
+
+			this.setRules( 'quote', {
+				breakBeforeOpen: 1,
+				breakAfterOpen: 1,
+				breakBeforeClose: 1,
+				breakAfterClose: 1
+			} );
 		},
 
 		proto: {
@@ -671,7 +678,9 @@ CKEDITOR.config.bbcode_smileyMap = {
 					writer = new CKEDITOR.htmlParser.basicWriter();
 
 				fragment.writeHtml( writer, bbcodeFilter );
-				return writer.getHtml( true );
+				var ret = writer.getHtml( true );
+				//console.log('BBCodeToHtml', ret);
+				return ret;
 			}
 
 			var bbcodeFilter = new CKEDITOR.htmlParser.filter();
@@ -737,7 +746,17 @@ CKEDITOR.config.bbcode_smileyMap = {
 							title: description,
 							alt: description
 						};
-					}
+					},
+					code: function( element ) {
+						console.log('element', element);
+						var lang = element.attributes['data-cke-code-lang'];
+						if (lang) {
+							element.attributes['class'] = 'language-' + lang;
+							//if (typeof hljsLoader !== 'undefined') {
+							//	hljsLoader.highlightBlocks(document.body);
+							//}
+						}
+					},
 				}
 			} );
 
@@ -817,6 +836,12 @@ CKEDITOR.config.bbcode_smileyMap = {
 								return new CKEDITOR.htmlParser.text( smileyMap[ alt ] );
 							else
 								element.children = [ new CKEDITOR.htmlParser.text( src ) ];
+						} else if ( tagName == 'code' ) {
+							console.log('tagName element', attributes);
+							var lang = attributes[ 'data-cke-code-lang' ];
+							if ( lang ) {
+								value = lang;
+							}
 						}
 
 						element.name = tagName;
