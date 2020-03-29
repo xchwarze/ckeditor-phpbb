@@ -1,0 +1,11 @@
+services:
+    dsr.ckeditor.event.main_listener:
+        class: dsr\ckeditor\event\main_listener
+        arguments:
+            - '@dbal.conn'
+            - '@template'
+            - '@config'
+            - '@user'
+            - '%core.root_path%'
+        tags:
+            - { name: event.listener }

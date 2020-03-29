@@ -1,0 +1,51 @@
+<!-- IF CKE_STATUS -->
+<style type="text/css">
+    <!-- IF S_BBCODE_ALLOWED -->
+        <!-- BEGIN custom_tags -->
+            .cke_button__{custom_tags.BBCODE_TAG}_icon {
+                background-image: url(./images/editor/custom/{custom_tags.BBCODE_TAG}.png) !important;
+            }
+            .cke_hidpi .cke_button__{custom_tags.BBCODE_TAG}_icon {
+                background-image: url(./images/editor/custom/{custom_tags.BBCODE_TAG}.hidpi.png) !important;
+            }
+        <!-- END custom_tags -->
+    <!-- ENDIF -->
+</style>
+
+<script type="text/javascript">
+    var ckeConfig = JSON.parse('{CKE_CONFIG}');
+
+    // some of this is from styles/xxxxxxxx/template/posting_buttons.html
+    ckeConfig.defaultFontSizes = {
+        "{L_FONT_TINY}": "50",
+        "{L_FONT_SMALL}": "85",
+        "{L_FONT_NORMAL}": "100",
+        "{L_FONT_LARGE}": "150",
+        "{L_FONT_HUGE}": "200",
+    };
+
+    ckeConfig.defaultEmoticonsBBcode = {
+        <!-- IF .smiley -->
+            <!-- BEGIN smiley -->
+                "{smiley.A_SMILEY_CODE}": { title: "{smiley.SMILEY_DESC}", src: "{smiley.SMILEY_IMG}"  }<!-- IF !smiley.S_LAST_ROW -->, <!-- ENDIF -->
+            <!-- END smiley -->
+        <!-- ENDIF -->
+    };
+
+    ckeConfig.defaultCustomBBcode = {
+        <!-- IF S_BBCODE_ALLOWED -->
+            <!-- BEGIN custom_tags -->
+                "{custom_tags.BBCODE_TAG|escape('js')}": "{custom_tags.BBCODE_HELPLINE|escape('js')}"<!-- IF !custom_tags.S_LAST_ROW -->, <!-- ENDIF -->
+            <!-- END custom_tags -->
+        <!-- ENDIF -->
+    };
+
+    (function () {
+        $('#smiley-box').hide();
+        $('#colour_palette').hide();
+        $('#format-buttons').hide();
+        //$('#message').hide();
+    })();
+</script>
+<!-- INCLUDEJS @dsr_ckeditor/js/init.js -->
+<!-- ENDIF -->
