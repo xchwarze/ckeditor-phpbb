@@ -1,8 +1,8 @@
 <?php
 /**
  * @author      DSR!
- * @since       01.01.20
- * @version     2.1.0
+ * @since       23.03.20
+ * @version     1.0.0
  */
 
 namespace dsr\ckeditor\event;
@@ -38,7 +38,7 @@ class main_listener implements EventSubscriberInterface
 		$this->config = $config;
 		$this->db = $db;
 		$this->root_path = $root_path;
-        $this->ckeditor_path = realpath(__DIR__ . '/../styles/all/template/js/ckeditor/');
+        $this->ckeditor_path = realpath(__DIR__ . '/../styles/all/template/js/ckeditor');
         $this->is_viewtopic = $user->page['page_name'] === 'viewtopic.php';
 	}
 
@@ -52,7 +52,7 @@ class main_listener implements EventSubscriberInterface
 			return false;
 		}
 
-		return is_readable($this->ckeditor_path . "lang/{$lang}.js") ? $lang : false;
+		return is_readable($this->ckeditor_path . "/lang/{$lang}.js") ? $lang : false;
 	}
 
     private function _fix_smileys()
