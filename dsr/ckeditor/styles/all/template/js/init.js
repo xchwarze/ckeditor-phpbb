@@ -68,7 +68,7 @@ function dsrCkeditorGenSmileyConfig() {
 			removeDialogTabs: 'link:advanced',
 			title: false,
 			disableObjectResizing: true,
-			extraPlugins: 'bbcode,customBBcode,youtube',
+			extraPlugins: 'bbcode,customBBcode,youtube,codesnippet',
 			bbcode_bbcodeMap: {
 				b: 'strong', u: 'u', i: 'em', s: 's', sub: 'sub', sup: 'sup', color: 'span', size: 'span', left: 'div', right: 'div',
 				center: 'div', justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li',

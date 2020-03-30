@@ -2,7 +2,7 @@
  * Youtube BBcode tag
  * v1.0.0
  * by DSR! (https://github.com/xchwarze)
- * Based on: https://github.com/fonini/ckeditor-youtube-plugin
+ * Based on: https://github.com/ckeditor/ckeditor4/blob/master/plugins/codesnippet/plugin.js
  */
 (function () {
     CKEDITOR.plugins.add('youtube', {

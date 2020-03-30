@@ -1,36 +1,9 @@
 /**
- * CustomBBcode selector
+ * Simple Code Snippet Selector
  * v1.0.0
  * by DSR! (https://github.com/xchwarze)
- * 2020
+ * Based on: https://github.com/ckeditor/ckeditor4/blob/master/plugins/codesnippet/plugin.js
  */
-
-/**
- * Array.prototype.forEach() polyfill
- */
-if (!Array.prototype.forEach) {
-    Array.prototype.forEach = function (callback, thisArg) {
-        thisArg = thisArg || window;
-        for (var i = 0; i < this.length; i++) {
-            callback.call(thisArg, this[i], i, this);
-        }
-    };
-}
-
-/**
- * Object.entries() polyfill
- */
-if (!Object.entries) {
-    Object.entries = function( obj ){
-        var ownProps = Object.keys( obj ),
-            i = ownProps.length,
-            resArray = new Array(i); // preallocate the Array
-        while (i--)
-            resArray[i] = [ownProps[i], obj[ownProps[i]]];
-
-        return resArray;
-    };
-}
 
 CKEDITOR.config.codeSnippet_languages = {};
 
@@ -41,16 +14,44 @@ CKEDITOR.config.codeSnippet_languages = {};
         icons: 'codesnippet',
         hidpi: true,
         init: function (editor) {
-            editor.addCommand('codesnippet', new CKEDITOR.dialogCommand('codesnippet'));
+            var codeSnippetLangs = editor.config.codeSnippet_languages;
 
             editor.ui.addButton( 'codesnippet', {
                 label: editor.lang.codesnippet.button,
-                command: 'codesnippet',
+                command: 'codeSnippetView',
                 toolbar: 'insert,10'
             } );
 
-            CKEDITOR.dialog.add('codeSnippet', function (instance) {
-                var snippetLangs = editor._.codesnippet.langs,
+            editor.addCommand('codeSnippetView', new CKEDITOR.dialogCommand('codeSnippetView'));
+
+            editor.addCommand('codesnippet', {
+                exec: function(editor) {
+                    if (editor.mode === 'wysiwyg') {
+                        var text = editor.getSelectedHtml().getHtml();
+                        editor.insertHtml('[code]' + text + '[/code]');
+                    } else {
+                        var sourceContainer = jQuery('textarea.cke_source'),
+                            selectionStart  = sourceContainer[0].selectionStart,
+                            selectionEnd    = sourceContainer[0].selectionEnd,
+                            rawText         = sourceContainer.val();
+
+                        if (selectionStart && selectionEnd && rawText) {
+                            sourceContainer.val(
+                                rawText.substring(0, selectionStart) +
+                                '[code]' + rawText.substring(selectionStart, selectionEnd) + '[/code]' +
+                                rawText.substring(selectionEnd)
+                            );
+                        }
+                    }
+                },
+                modes: {
+                    wysiwyg: 1,
+                    source: 1
+                }
+            });
+
+            CKEDITOR.dialog.add('codeSnippetView', function (instance) {
+                var snippetLangs = codeSnippetLangs,
                     lang = editor.lang.codesnippet,
                     clientHeight = document.documentElement.clientHeight,
                     langSelectItems = [],
@@ -61,6 +62,7 @@ CKEDITOR.config.codeSnippet_languages = {};
                 for ( snippetLangId in snippetLangs )
                     langSelectItems.push( [ snippetLangs[ snippetLangId ], snippetLangId ] );
 
+                // TODO entiendo que esto es codigo legacy del plugin original
                 // Size adjustments.
                 var size = CKEDITOR.document.getWindow().getViewPaneSize(),
                     // Make it maximum 800px wide, but still fully visible in the viewport.
@@ -78,7 +80,7 @@ CKEDITOR.config.codeSnippet_languages = {};
                     minHeight: 200,
                     resizable: CKEDITOR.DIALOG_RESIZE_NONE,
                     contents: [{
-                        id: 'info',
+                        id: 'codeSnippetView',
                         elements: [
                             {
                                 id: 'lang',
@@ -102,9 +104,11 @@ CKEDITOR.config.codeSnippet_languages = {};
                         ]}
                     ],
                     onOk: function() {
-                        var iframe = ytGenIframe(video);
-                        var element = CKEDITOR.dom.element.createFromHtml(iframe);
-                        instance.insertElement(element);
+                        var lang = this.getValueOf('codeSnippetView', 'lang'),
+                            code = this.getValueOf('codeSnippetView', 'code'),
+                            openTag = 'code' + (lang ? '=' + lang : '');
+
+                        editor.insertHtml('[' + openTag + ']' + code + '[/code]');
                     }
                 };
             });

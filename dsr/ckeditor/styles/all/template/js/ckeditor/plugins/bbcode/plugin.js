@@ -678,9 +678,7 @@ CKEDITOR.config.bbcode_smileyMap = {
 					writer = new CKEDITOR.htmlParser.basicWriter();
 
 				fragment.writeHtml( writer, bbcodeFilter );
-				var ret = writer.getHtml( true );
-				//console.log('BBCodeToHtml', ret);
-				return ret;
+				return writer.getHtml( true );
 			}
 
 			var bbcodeFilter = new CKEDITOR.htmlParser.filter();
@@ -748,7 +746,6 @@ CKEDITOR.config.bbcode_smileyMap = {
 						};
 					},
 					code: function( element ) {
-						console.log('element', element);
 						var lang = element.attributes['data-cke-code-lang'];
 						if (lang) {
 							element.attributes['class'] = 'language-' + lang;
@@ -837,7 +834,6 @@ CKEDITOR.config.bbcode_smileyMap = {
 							else
 								element.children = [ new CKEDITOR.htmlParser.text( src ) ];
 						} else if ( tagName == 'code' ) {
-							console.log('tagName element', attributes);
 							var lang = attributes[ 'data-cke-code-lang' ];
 							if ( lang ) {
 								value = lang;

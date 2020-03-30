@@ -2,7 +2,6 @@
  * CustomBBcode selector
  * v1.0.0
  * by DSR! (https://github.com/xchwarze)
- * 2020
  */
 
 /**
