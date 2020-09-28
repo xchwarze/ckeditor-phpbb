@@ -14,7 +14,7 @@ if (!Array.prototype.forEach) {
  * Object.entries() polyfill
  */
 if (!Object.entries) {
-	Object.entries = function( obj ){
+	Object.entries = function( obj ){z
 		var ownProps = Object.keys( obj ),
 			i = ownProps.length,
 			resArray = new Array(i); // preallocate the Array
@@ -58,7 +58,7 @@ function dsrCkeditorGenSmileyConfig() {
 		is_signature  = document.getElementsByName('signature').length !== 0;
 
 	if (!is_message && !is_signature) {
-		console.log('[CKEDITOR-PHPBB] target not found!');
+		console.warn('[CKEDITOR-PHPBB] target not found!');
 		return;
 	}
 
@@ -70,7 +70,7 @@ function dsrCkeditorGenSmileyConfig() {
 			removeDialogTabs: 'link:advanced',
 			title: false,
 			disableObjectResizing: true,
-			extraPlugins: 'bbcode,customBBcode,youtube,codesnippet,mentions',
+			extraPlugins: 'bbcode,customBBcode,youtube,mentions',
 			bbcode_bbcodeMap: {
 				b: 'strong', u: 'u', i: 'em', s: 's', sub: 'sub', sup: 'sup', color: 'span', size: 'span', left: 'div', right: 'div',
 				center: 'div', justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li',
@@ -94,30 +94,30 @@ function dsrCkeditorGenSmileyConfig() {
 			smiley_path: './',
 			autosave_saveDetectionSelectors: 'input[name*="post"],input[name*="save"],input[name*="preview"]',
 			autosave_saveOnDestroy: false,
-			codeSnippet_theme: ckeConfig.codeSnippetTheme,
-			codeSnippet_languages: ckeConfig.codeSnippetLanguages,
-
-			// others
-			/*	
-			image_prefillDimensions: false,
-			imgurClientId: rinimgur,
-			disableNativeSpellChecker: false,
-			*/
+			//image_prefillDimensions: false,
 			on: {
-				setData: function(evt) {
+				setData: function(event) {
 					// TODO change this!
 					// fix bbcode in editor
 					var url = document.URL;
 					if (url.indexOf('posting.php?mode=quote') || 0 <= url.indexOf('ucp.php?i=pm') || 0 <= url.indexOf('#preview')) {
-						var bbcode = evt.data.dataValue;
+						var bbcode = event.data.dataValue;
 						bbcode = bbcode.replace(/([\s\S]*)\/quote]/, "$1\/quote][justify][/justify]");
 
-						evt.data.dataValue = bbcode;
+						event.data.dataValue = bbcode;
 					}
 				},
 			}
 		};
 
+	// phpbb-ext-highlighter
+	if (ckeConfig.codeSnippetTheme) {
+		config.extraPlugins = config.extraPlugins + ',codesnippet';
+		config.codeSnippet_theme = ckeConfig.codeSnippetTheme;
+		config.codeSnippet_languages = ckeConfig.codeSnippetLanguages;
+	}
+
+	// paul999 mentions
 	if (ckeConfig.mentions.ajaxUrl) {
 		config.mentions = [
 			{
@@ -146,28 +146,16 @@ function dsrCkeditorGenSmileyConfig() {
 		];
 	}
 
+	// imgur
+	if (ckeConfig.imgurClientId) {
+		config.extraPlugins = config.extraPlugins + ',imgur';
+		config.imgurClientId = ckeConfig.imgurClientId;
+	}
+
 	if (ckeConfig.lang) {
 		config.language = ckeConfig.lang;
 	}
 
 	CKEDITOR.replace(is_message ? 'message' : 'signature', config);
-
-	/*
-	CKEDITOR.on('instanceReady', function(event) {
-		event.editor.on('key', function(event) {
-			//if ("Enter" == event.data.domEvent.$.key && tribute.isActive) return !1
-		});
-
-		event.editor.on('mode', function(event) {
-			//"source" == event.editor.mode ? 
-			// tribute.attach($("#" + event.editor.name + "_2")) : 
-			// tribute.attach(event.editor.document.$.body)
-		});
-
-		//"source" == event.editor.mode ? 
-		// tribute.attach($("#" + event.editor.name + "_2")) : 
-		// tribute.attach(event.editor.document.$.body)
-	});
-	*/
 } )();
 

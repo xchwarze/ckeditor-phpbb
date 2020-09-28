@@ -166,6 +166,7 @@ class main_listener implements EventSubscriberInterface
                 'removeButtons' => $is_viewtopic ? $remove_buttons_quick_toolbar : $remove_buttons_normal_toolbar,
                 'codeSnippetTheme' => $code_snippet_theme,
                 'codeSnippetLanguages' => $code_snippet_languages,
+                'imgurClientId' => false,
             ]),
         ));
     }
