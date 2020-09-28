@@ -1,8 +1,8 @@
 <?php
 /**
  * @author      DSR!
- * @since       01.01.20
- * @version     2.1.0
+ * @since       23.03.20
+ * @version     1.0.0
  */
 
 namespace dsr\ckeditor\event;
