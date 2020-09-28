@@ -14,7 +14,7 @@ if (!Array.prototype.forEach) {
  * Object.entries() polyfill
  */
 if (!Object.entries) {
-	Object.entries = function( obj ){z
+	Object.entries = function( obj ){
 		var ownProps = Object.keys( obj ),
 			i = ownProps.length,
 			resArray = new Array(i); // preallocate the Array
