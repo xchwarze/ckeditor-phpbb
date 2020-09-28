@@ -54,8 +54,10 @@ function dsrCkeditorGenSmileyConfig() {
 }
 
 ( function() {
-	if (document.getElementsByName('message').length === 0 &&
-		document.getElementsByName('signature').length === 0) {
+	var is_message = document.getElementsByName('message').length !== 0,
+		is_signature  = document.getElementsByName('signature').length !== 0;
+
+	if (!is_message && !is_signature) {
 		console.log('[CKEDITOR-PHPBB] target not found!');
 		return;
 	}
@@ -68,7 +70,7 @@ function dsrCkeditorGenSmileyConfig() {
 			removeDialogTabs: 'link:advanced',
 			title: false,
 			disableObjectResizing: true,
-			extraPlugins: 'bbcode,customBBcode,youtube,codesnippet',
+			extraPlugins: 'bbcode,customBBcode,youtube,codesnippet,mentions',
 			bbcode_bbcodeMap: {
 				b: 'strong', u: 'u', i: 'em', s: 's', sub: 'sub', sup: 'sup', color: 'span', size: 'span', left: 'div', right: 'div',
 				center: 'div', justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li',
@@ -94,19 +96,12 @@ function dsrCkeditorGenSmileyConfig() {
 			autosave_saveOnDestroy: false,
 			codeSnippet_theme: ckeConfig.codeSnippetTheme,
 			codeSnippet_languages: ckeConfig.codeSnippetLanguages,
-			/*
-				// mentions
-				mentions: [
-					{
-						feed: [ 'Anna', 'Thomas', 'John' ],
-						marker: '@'
-					},
-				],
 
-				// others
-				image_prefillDimensions: false,
-				imgurClientId: rinimgur,
-				disableNativeSpellChecker: false,
+			// others
+			/*	
+			image_prefillDimensions: false,
+			imgurClientId: rinimgur,
+			disableNativeSpellChecker: false,
 			*/
 			on: {
 				setData: function(evt) {
@@ -123,14 +118,56 @@ function dsrCkeditorGenSmileyConfig() {
 			}
 		};
 
+	if (ckeConfig.mentions.ajaxUrl) {
+		config.mentions = [
+			{
+				feed: function(options, callback) {
+					if (options.query.length < ckeConfig.mentions.minlength) {
+						callback([]);
+						return;
+					}
+
+					$.getJSON(
+						ckeConfig.mentions.ajaxUrl,
+						{ q: options.query },
+						function (data) {
+							callback(data);
+						}
+					);
+				},
+				marker: '@',
+				minChars: ckeConfig.mentions.minlength,
+				throttle: 500,
+				itemTemplate: '<li data-id="{user_id}">{value}</li>',
+				// TODO hay que ver como hacer esto mas vistozo dandole soporte en el editor
+				//outputTemplate: '<a href="/tracker/{user_id}">@{value}</a>'
+				outputTemplate: '[smention u={user_id}]{value}[/smention]'
+			},
+		];
+	}
+
 	if (ckeConfig.lang) {
 		config.language = ckeConfig.lang;
 	}
 
-	if (document.getElementsByName('message').length) {
-		CKEDITOR.replace('message', config);
-	} else {
-		CKEDITOR.replace('signature', config);
-	}
+	CKEDITOR.replace(is_message ? 'message' : 'signature', config);
+
+	/*
+	CKEDITOR.on('instanceReady', function(event) {
+		event.editor.on('key', function(event) {
+			//if ("Enter" == event.data.domEvent.$.key && tribute.isActive) return !1
+		});
+
+		event.editor.on('mode', function(event) {
+			//"source" == event.editor.mode ? 
+			// tribute.attach($("#" + event.editor.name + "_2")) : 
+			// tribute.attach(event.editor.document.$.body)
+		});
+
+		//"source" == event.editor.mode ? 
+		// tribute.attach($("#" + event.editor.name + "_2")) : 
+		// tribute.attach(event.editor.document.$.body)
+	});
+	*/
 } )();
 

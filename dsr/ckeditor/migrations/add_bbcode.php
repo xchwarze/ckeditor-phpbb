@@ -2,7 +2,7 @@
 
 namespace dsr\ckeditor\migrations;
 
-class bbcodedata extends \phpbb\db\migration\migration
+class add_bbcode extends \phpbb\db\migration\migration
 {
 
     public function update_data()

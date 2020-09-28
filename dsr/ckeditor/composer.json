@@ -2,7 +2,7 @@
   "name": "dsr/ckeditor",
   "type": "phpbb-extension",
   "description": "CKEditor 4",
-  "homepage": "https://github.com/xchwarze/ckeditor_for_phpbb",
+  "homepage": "https://github.com/xchwarze/ckeditor-phpbb",
   "version": "1.0.0",
   "time": "2020-03-23",
   "license": "GPL-2.0",
@@ -15,7 +15,7 @@
     }
   ],
   "require": {
-    "php": ">=5.4.0"
+    "php": ">=5.6.0"
   },
   "extra": {
     "display-name": "CKEditor 4",

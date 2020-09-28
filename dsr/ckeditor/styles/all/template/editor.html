@@ -40,6 +40,11 @@
         <!-- ENDIF -->
     };
 
+    ckeConfig.mentions = {
+        ajaxUrl: typeof U_AJAX_MENTION_URL !== 'undefined' ? U_AJAX_MENTION_URL : false,
+        minlength: typeof MIN_MENTION_LENGTH !== 'undefined' ? MIN_MENTION_LENGTH : false
+    };
+
     (function () {
         $('#smiley-box').hide();
         $('#colour_palette').hide();

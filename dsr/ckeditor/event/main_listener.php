@@ -39,7 +39,17 @@ class main_listener implements EventSubscriberInterface
         $this->db = $db;
         $this->root_path = $root_path;
         $this->ckeditor_path = realpath(__DIR__ . '/../styles/all/template/js/ckeditor');
-        $this->is_viewtopic = $user->page['page_name'] === 'viewtopic.php';
+    }
+
+    static public function getSubscribedEvents()
+    {
+        return array(
+            'core.display_custom_bbcodes'           => 'initialize_editor',
+            'core.viewtopic_modify_page_title'      => 'initialize_quick_reply_editor',
+            //'core.generate_smilies_after'         => 'initialize_editor',
+            //'core.modify_posting_auth'            => 'initialize_editor',
+            //'core.display_custom_bbcodes'         => 'initialize_editor',
+        );
     }
 
     private function _get_lang()
@@ -52,49 +62,36 @@ class main_listener implements EventSubscriberInterface
             return false;
         }
 
-        return is_readable($this->ckeditor_path . "/lang/{$lang}.js") ? $lang : false;
+        return is_readable("{$this->ckeditor_path}/lang/{$lang}.js") ? $lang : false;
     }
 
     private function _fix_smileys()
     {
-        if ($this->is_viewtopic)
-        {
-            // this is based on generate_smilies();
-            //$root_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? generate_board_url() . '/' : $phpbb_path_helper->get_web_root_path();
-            $root_path = $this->root_path;
+        // this is based on generate_smilies();
+        //$root_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? generate_board_url() . '/' : $phpbb_path_helper->get_web_root_path();
+        $root_path = $this->root_path;
 
-            $sql = 'SELECT *
+        $sql = 'SELECT *
                     FROM ' . SMILIES_TABLE . '
                     WHERE display_on_posting = 1
                     ORDER BY smiley_order';
-            $result = $this->db->sql_query($sql, 3600);
-            while ($row = $this->db->sql_fetchrow($result))
-            {
-                $this->template->assign_block_vars('smiley', array(
-                    'SMILEY_CODE'   => $row['code'],
-                    'A_SMILEY_CODE' => addslashes($row['code']),
-                    'SMILEY_IMG'    => $root_path . $this->config['smilies_path'] . '/' . $row['smiley_url'],
-                    'SMILEY_WIDTH'  => $row['smiley_width'],
-                    'SMILEY_HEIGHT' => $row['smiley_height'],
-                    'SMILEY_DESC'   => $row['emotion'])
-                );
-            }
-
-            $this->db->sql_freeresult($result);
+        $result = $this->db->sql_query($sql, 3600);
+        while ($row = $this->db->sql_fetchrow($result))
+        {
+            $this->template->assign_block_vars('smiley', array(
+                'SMILEY_CODE'   => $row['code'],
+                'A_SMILEY_CODE' => addslashes($row['code']),
+                'SMILEY_IMG'    => $root_path . $this->config['smilies_path'] . '/' . $row['smiley_url'],
+                'SMILEY_WIDTH'  => $row['smiley_width'],
+                'SMILEY_HEIGHT' => $row['smiley_height'],
+                'SMILEY_DESC'   => $row['emotion'])
+            );
         }
+
+        $this->db->sql_freeresult($result);
     }
 
-    static public function getSubscribedEvents()
-    {
-        return array(
-            'core.generate_smilies_after' => 'initialize_editor',
-            'core.viewtopic_modify_page_title' => 'initialize_editor'
-            //'core.display_custom_bbcodes' => 'initialize_rceditor',
-            //'core.viewtopic_modify_page_title' => 'initialize_rceditor',
-        );
-    }
-
-    public function initialize_editor()
+    private function _initialize_editor($is_viewtopic)
     {
         $editor_normal_toolbar = [
             [ 'name' => 'basicstyles' ],
@@ -133,7 +130,7 @@ class main_listener implements EventSubscriberInterface
             'delphi' => 'Delphi',
             'diff' => 'Diff',
             'dockerfile' => 'Dockerfile',
-            'dos' => 'Dos',
+            'dos' => 'DOS',
             'go' => 'Go',
             'http' => 'Http',
             'ini' => 'INI',
@@ -145,7 +142,7 @@ class main_listener implements EventSubscriberInterface
             'makefile' => 'Makefile',
             'markdown' => 'Markdown',
             'nginx' => 'Nginx',
-            'php' => 'Php',
+            'php' => 'PHP',
             'powershell' => 'Powershell',
             'python' => 'Python',
             'ruby' => 'Ruby',
@@ -165,13 +162,21 @@ class main_listener implements EventSubscriberInterface
             'CKE_CONFIG' => json_encode([
                 'lang' => $this->_get_lang(),
                 'maxFontSize' => $this->config['max_post_font_size'],
-                'toolbarGroups' => $this->is_viewtopic ? $editor_quick_toolbar : $editor_normal_toolbar,
-                'removeButtons' => $this->is_viewtopic ? $remove_buttons_quick_toolbar : $remove_buttons_normal_toolbar,
+                'toolbarGroups' => $is_viewtopic ? $editor_quick_toolbar : $editor_normal_toolbar,
+                'removeButtons' => $is_viewtopic ? $remove_buttons_quick_toolbar : $remove_buttons_normal_toolbar,
                 'codeSnippetTheme' => $code_snippet_theme,
                 'codeSnippetLanguages' => $code_snippet_languages,
             ]),
         ));
+    }
 
+    public function initialize_editor() {
+        $this->_initialize_editor(false);
+    }
+
+    public function initialize_quick_reply_editor() {
+        //$is_viewtopic = $this->user->page['page_name'] === 'viewtopic.php';
         $this->_fix_smileys();
+        $this->_initialize_editor(true);
     }
 }

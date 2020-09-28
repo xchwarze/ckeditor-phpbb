@@ -41,7 +41,7 @@ CKEDITOR.config.customBBcode_codes = {};
             bbcodes.forEach(function(bbcode){
                 var name = bbcode[0],
                     info = bbcode[1],
-                    command = 'custom' + name;
+                    command = 'customBBcode-' + name;
 
                 editor.addCommand(command, {
                     exec: function(editor) {
