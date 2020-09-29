@@ -119,43 +119,7 @@ class main_listener implements EventSubscriberInterface
         // first install this!!!
         // https://github.com/s9e/phpbb-ext-highlighter
         $code_snippet_theme = 'monokai_sublime';
-        $code_snippet_languages = [
-            'arduino' => 'Arduino',
-            'autoit' => 'Autoit',
-            'bash' => 'Bash',
-            'basic' => 'Basic',
-            'cpp' => 'C/C++',
-            'cs' => 'C#',
-            'css' => 'CSS',
-            'delphi' => 'Delphi',
-            'diff' => 'Diff',
-            'dockerfile' => 'Dockerfile',
-            'dos' => 'DOS',
-            'go' => 'Go',
-            'http' => 'Http',
-            'ini' => 'INI',
-            'java' => 'Java',
-            'javascript' => 'Javascript',
-            'json' => 'JSON',
-            'less' => 'Less',
-            'lua' => 'Lua',
-            'makefile' => 'Makefile',
-            'markdown' => 'Markdown',
-            'nginx' => 'Nginx',
-            'php' => 'PHP',
-            'powershell' => 'Powershell',
-            'python' => 'Python',
-            'ruby' => 'Ruby',
-            'rust' => 'Rust',
-            'scss' => 'Scss',
-            'shell' => 'Shell',
-            'sql' => 'SQL',
-            'typescript' => 'Typescript',
-            'vbnet' => 'VB .NET',
-            'vbscript' => 'VB Script',
-            'xml' => 'Xml',
-            'yaml' => 'Yaml',
-        ];
+        $code_snippet_languages = false;
 
         $this->template->assign_vars(array(
             'CKE_STATUS' => true,
