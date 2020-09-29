@@ -121,17 +121,17 @@ function dsrCkeditorGenSmileyConfig() {
 	}
 
 	// paul999 mentions
-	if (ckeConfig.mentions.ajaxUrl) {
+	if (typeof U_AJAX_MENTION_URL !== 'undefined') {
 		config.mentions = [
 			{
 				feed: function(options, callback) {
-					if (options.query.length < ckeConfig.mentions.minlength) {
+					if (options.query.length < MIN_MENTION_LENGTH) {
 						callback([]);
 						return;
 					}
 
 					$.getJSON(
-						ckeConfig.mentions.ajaxUrl,
+						U_AJAX_MENTION_URL,
 						{ q: options.query },
 						function (data) {
 							callback(data);
@@ -139,7 +139,7 @@ function dsrCkeditorGenSmileyConfig() {
 					);
 				},
 				marker: '@',
-				minChars: ckeConfig.mentions.minlength,
+				minChars: MIN_MENTION_LENGTH,
 				throttle: 500,
 				itemTemplate: '<li data-id="{user_id}">{value}</li>',
 				// TODO hay que ver como hacer esto mas vistozo dandole soporte en el editor
