@@ -34,14 +34,14 @@ if (!Object.entries) {
 CKEDITOR.config.customBBcode_codes = {};
 
 (function () {
-    CKEDITOR.plugins.add('customBBcode', {
+    CKEDITOR.plugins.add('custombbcode', {
         requires: 'bbcode',
         init: function(editor) {
             var bbcodes = Object.entries(editor.config.customBBcode_codes);
             bbcodes.forEach(function(bbcode){
                 var name = bbcode[0],
                     info = bbcode[1],
-                    command = 'customBBcode-' + name;
+                    command = 'custombbcode-' + name;
 
                 editor.addCommand(command, {
                     exec: function(editor) {
