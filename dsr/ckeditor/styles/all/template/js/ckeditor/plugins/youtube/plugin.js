@@ -6,7 +6,10 @@
  */
 (function () {
     CKEDITOR.plugins.add('youtube', {
+        // jscs:disable maximumLineLength
         lang: [ 'en', 'bg', 'pt', 'pt-br', 'ja', 'hu', 'it', 'fr', 'tr', 'ru', 'de', 'ar', 'nl', 'pl', 'vi', 'zh', 'el', 'he', 'es', 'nb', 'nn', 'fi', 'et', 'sk', 'cs', 'ko', 'eu', 'uk'],
+        icons: 'youtube', // %REMOVE_LINE_CORE%
+        hidpi: true, // %REMOVE_LINE_CORE%
         beforeInit: function( editor ) {
             var config = editor.config,
                 bbcodeMap = config.bbcode_bbcodeMap;
@@ -46,7 +49,6 @@
                 label : editor.lang.youtube.button,
                 toolbar : 'insert',
                 command : 'youtube',
-                icon : this.path + 'images/icon.png'
             });
 
             CKEDITOR.dialog.add('youtube', function (instance) {
