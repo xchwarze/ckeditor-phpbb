@@ -70,6 +70,7 @@ function dsrCkeditorGenSmileyConfig() {
 			removeDialogTabs: 'link:advanced',
 			title: false,
 			disableObjectResizing: true,
+			disableNativeSpellChecker: false,
 			extraPlugins: 'bbcode,custombbcode,youtube,mentions',
 			bbcode_bbcodeMap: {
 				b: 'strong', u: 'u', i: 'em', s: 's', sub: 'sub', sup: 'sup', color: 'span', size: 'span', left: 'div', right: 'div',
