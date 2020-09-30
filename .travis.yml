@@ -45,8 +45,8 @@ install:
   - sh -c "if [ '$EPV' = '1' -a '$NOTESTS' = '1' ]; then cd phpBB; composer require phpbb/epv:dev-master --dev --no-interaction --ignore-platform-reqs; cd ../; fi"
 
 before_script:
-  - chmod +x prepare-phpbb.sh
-  - chmod +x prepare-extension.sh
+  - chmod +x travis/prepare-phpbb.sh
+  - chmod +x travis/prepare-extension.sh
   - travis/setup-database.sh $DB $TRAVIS_PHP_VERSION $NOTESTS
 
 script:
