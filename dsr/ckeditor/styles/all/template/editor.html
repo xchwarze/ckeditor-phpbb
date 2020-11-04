@@ -1,43 +1,43 @@
-<!-- IF CKE_STATUS -->
 <style type="text/css">
-    <!-- IF S_BBCODE_ALLOWED -->
-        <!-- BEGIN custom_tags -->
-            .cke_button__{custom_tags.BBCODE_TAG}_icon {
-                background-image: url(./images/editor/custom/{custom_tags.BBCODE_TAG}.png) !important;
+    {% if custom_tags %}
+        {% for tag in custom_tags %}
+            .cke_button__{{ tag.BBCODE_TAG }}_icon {
+                background-image: url('./images/editor/custom/{{ tag.BBCODE_TAG }}.png') !important;
             }
-            .cke_hidpi .cke_button__{custom_tags.BBCODE_TAG}_icon {
-                background-image: url(./images/editor/custom/{custom_tags.BBCODE_TAG}.hidpi.png) !important;
+
+            .cke_hidpi .cke_button__{{ tag.BBCODE_TAG }}_icon {
+                background-image: url('./images/editor/custom/{{ tag.BBCODE_TAG }}.hidpi.png') !important;
             }
-        <!-- END custom_tags -->
-    <!-- ENDIF -->
+        {% endfor %}
+    {% endif %}
 </style>
 
 <script type="text/javascript">
-    var ckeConfig = JSON.parse('{CKE_CONFIG}');
+    var ckeConfig = JSON.parse('{{ CKE_CONFIG }}');
 
     // some of this is from styles/xxxxxxxx/template/posting_buttons.html
     ckeConfig.defaultFontSizes = {
-        "{L_FONT_TINY}": "50",
-        "{L_FONT_SMALL}": "85",
-        "{L_FONT_NORMAL}": "100",
-        "{L_FONT_LARGE}": "150",
-        "{L_FONT_HUGE}": "200",
+        "{{ lang('FONT_TINY') }}": "50",
+        "{{ lang('FONT_SMALL') }}": "85",
+        "{{ lang('FONT_NORMAL') }}": "100",
+        "{{ lang('FONT_LARGE') }}": "150",
+        "{{ lang('FONT_HUGE') }}": "200",
     };
 
     ckeConfig.defaultEmoticonsBBcode = {
-        <!-- IF .smiley -->
-            <!-- BEGIN smiley -->
-                "{smiley.A_SMILEY_CODE}": { title: "{smiley.SMILEY_DESC}", src: "{smiley.SMILEY_IMG}"  }<!-- IF !smiley.S_LAST_ROW -->, <!-- ENDIF -->
-            <!-- END smiley -->
-        <!-- ENDIF -->
+        {% if smiley %}
+            {% for smile in smiley %}
+                "{{ smile.A_SMILEY_CODE }}": { title: "{{ smile.SMILEY_DESC }}", src: "{{ smile.SMILEY_IMG }}"  }{% if !smile.S_LAST_ROW %}, {% endif %}
+            {% endfor %}
+        {% endif %}
     };
 
     ckeConfig.defaultCustomBBcode = {
-        <!-- IF S_BBCODE_ALLOWED -->
-            <!-- BEGIN custom_tags -->
-                "{custom_tags.BBCODE_TAG|escape('js')}": "{custom_tags.BBCODE_HELPLINE|escape('js')}"<!-- IF !custom_tags.S_LAST_ROW -->, <!-- ENDIF -->
-            <!-- END custom_tags -->
-        <!-- ENDIF -->
+        {% if custom_tags %}
+            {% for tag in custom_tags %}
+                "{{ tag.BBCODE_TAG|escape('js') }}": "{{ tag.BBCODE_HELPLINE|escape('js') }}"{% if !tag.S_LAST_ROW %}, {% endif %}
+            {% endfor %}
+        {% endif %}
     };
 
     (function () {
@@ -46,5 +46,4 @@
         $('#format-buttons').hide();
     })();
 </script>
-<!-- INCLUDEJS @dsr_ckeditor/js/init.js -->
-<!-- ENDIF -->
+{% INCLUDEJS '@dsr_ckeditor/js/init.js' %}

@@ -6,6 +6,7 @@ services:
             - '@template'
             - '@config'
             - '@user'
+            - '@language'
             - '%core.root_path%'
         tags:
             - { name: event.listener }

@@ -22,6 +22,8 @@ class main_listener implements EventSubscriberInterface
     private $config;
     /** @var \phpbb\db\driver\driver_interface */
     private $db;
+    /** @var \phpbb\language\language */
+    private $language;
 
     private $root_path;
     private $ckeditor_path;
@@ -31,14 +33,16 @@ class main_listener implements EventSubscriberInterface
         \phpbb\template\template $template,
         \phpbb\config\config $config,
         \phpbb\user $user,
+        \phpbb\language\language $language,
         $root_path
     ) {
-        $this->template = $template;
-        $this->user = $user;
-        $this->config = $config;
-        $this->db = $db;
-        $this->root_path = $root_path;
-        $this->ckeditor_path = realpath(__DIR__ . '/../styles/all/template/js/ckeditor');
+        $this->template         = $template;
+        $this->user             = $user;
+        $this->config           = $config;
+        $this->db               = $db;
+        $this->language         = $language;
+        $this->root_path        = $root_path;
+        $this->ckeditor_path    = realpath(__DIR__ . '/../styles/all/template/js/ckeditor');
     }
 
     static public function getSubscribedEvents()
@@ -48,7 +52,6 @@ class main_listener implements EventSubscriberInterface
             'core.viewtopic_modify_page_title'      => 'initialize_quick_reply_editor',
             //'core.generate_smilies_after'         => 'initialize_editor',
             //'core.modify_posting_auth'            => 'initialize_editor',
-            //'core.display_custom_bbcodes'         => 'initialize_editor',
         );
     }
 
@@ -91,8 +94,22 @@ class main_listener implements EventSubscriberInterface
         $this->db->sql_freeresult($result);
     }
 
+    private function _fix_languages()
+    {
+        // add missing texts
+        $this->language->add_lang('posting');
+        $this->template->assign_vars(array(
+            'FONT_HUGE'     => $this->language->lang('FONT_HUGE'),
+            'FONT_LARGE'    => $this->language->lang('FONT_LARGE'),
+            'FONT_NORMAL'   => $this->language->lang('FONT_NORMAL'),
+            'FONT_SMALL'    => $this->language->lang('FONT_SMALL'),
+            'FONT_TINY'     => $this->language->lang('FONT_TINY'),
+        ));
+    }
+
     private function _initialize_editor($is_viewtopic)
     {
+
         $editor_normal_toolbar = [
             [ 'name' => 'basicstyles' ],
             [ 'name' => 'styles' ],
@@ -140,7 +157,13 @@ class main_listener implements EventSubscriberInterface
     }
 
     public function initialize_quick_reply_editor() {
+        // check if user is login first!
+        if ( empty($this->user->data['user_id']) || $this->user->data['user_id'] == ANONYMOUS) {
+            return;
+        }
+
         //$is_viewtopic = $this->user->page['page_name'] === 'viewtopic.php';
+        $this->_fix_languages();
         $this->_fix_smileys();
         $this->_initialize_editor(true);
     }

@@ -1,0 +1,5 @@
+{% if CKE_STATUS %}
+    {% INCLUDEJS '@dsr_ckeditor/js/ckeditor/ckeditor.js' %}
+    {% INCLUDEJS '@dsr_ckeditor/js/ckeditor/adapters/jquery.js' %}
+    {% INCLUDE '@dsr_ckeditor/editor.html' %}
+{% endif %}
