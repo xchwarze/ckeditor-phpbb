@@ -143,7 +143,7 @@ function dsrCkeditorGenSmileyConfig() {
 				minChars: MIN_MENTION_LENGTH,
 				throttle: 500,
 				itemTemplate: '<li data-id="{user_id}">{value}</li>',
-				// TODO hay que ver como hacer esto mas vistozo dandole soporte en el editor
+				// TODO hay que ver como hacer esto con soporte en el editor
 				//outputTemplate: '<a href="/tracker/{user_id}">@{value}</a>'
 				outputTemplate: '[smention u={user_id}]{value}[/smention]'
 			},

@@ -98,13 +98,6 @@ class main_listener implements EventSubscriberInterface
     {
         // add missing texts
         $this->language->add_lang('posting');
-        $this->template->assign_vars(array(
-            'FONT_HUGE'     => $this->language->lang('FONT_HUGE'),
-            'FONT_LARGE'    => $this->language->lang('FONT_LARGE'),
-            'FONT_NORMAL'   => $this->language->lang('FONT_NORMAL'),
-            'FONT_SMALL'    => $this->language->lang('FONT_SMALL'),
-            'FONT_TINY'     => $this->language->lang('FONT_TINY'),
-        ));
     }
 
     private function _initialize_editor($is_viewtopic)
