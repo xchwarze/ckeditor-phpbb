@@ -33,7 +33,7 @@ class acp_module
         $user->add_lang('acp/common');
         $user->add_lang_ext('dsr/ckeditor', 'acp_common');
         $this->tpl_name = 'acp_ckeditor';
-        $this->page_title = $user->lang['ACP_DSR_CKE_TITLE'];
+        $this->page_title = 'ACP_DSR_CKE_TITLE';
         add_form_key('acp_ckeditor');
 
         // tendria que haber una forma mas moderna de hacer la validacion del formulario
