@@ -1,0 +1,89 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_ACP_DSR_CKE_TITLE}</h1>
+<p>{L_ACP_DSR_CKE_EXPLAIN}</p>
+
+{% if S_ERROR %}
+<div class="errorbox">
+	<h3>{L_WARNING}</h3>
+	<p>{ERROR_MSG}</p>
+</div>
+{% endif %}
+
+<form id="acp_ckeditor" method="post" action="{U_ACTION}">
+	<fieldset>
+		<legend>{L_ACP_DSR_CKE_STATUS}</legend>
+		<dl>
+			<dt><label>{L_ACP_DSR_CKE_STATUS_TEXT}{L_COLON}</label></dt>
+			<dd><input type="radio" class="radio" name="dsr_cke_status" value="1" <!-- IF DSR_CKE_STATUS -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp
+				<input type="radio" class="radio" name="dsr_cke_status" value="0" <!-- IF not DSR_CKE_STATUS -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label for="dsr_cke_cache_time">{L_ACP_DSR_CKE_CACHE_TIME_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_CACHE_TIME_DESC}</span></dt>
+			<dd><input type="number" name="dsr_cke_cache_time" id="dsr_cke_cache_time" size="10" maxlength="5" value="{DSR_CKE_CACHE_TIME}"></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<legend>{L_ACP_DSR_CKE_TOOLBAR}{L_COLON}</legend>
+		<dl>
+			<dt><label for="dsr_cke_normal_editor_toolbar_groups">{L_ACP_DSR_CKE_NORMAL_TOOLBAR_GROUPS_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_NORMAL_TOOLBAR_GROUPS_DESC}</span></dt>
+			<dd><textarea id="dsr_cke_normal_editor_toolbar_groups" name="dsr_cke_normal_editor_toolbar_groups" rows="5" cols="40">{DSR_CKE_NORMAL_EDITOR_TOOLBAR_GROUPS}</textarea></dd>
+		</dl>
+		<dl>
+			<dt><label for="dsr_cke_normal_editor_remove_buttons">{L_ACP_DSR_CKE_NORMAL_REMOVE_BUTTONS_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_NORMAL_REMOVE_BUTTONS_DESC}</span></dt>
+			<dd><input type="text" class="input" size="60" maxlength="255" id="dsr_cke_normal_editor_remove_buttons" name="dsr_cke_normal_editor_remove_buttons" value="{DSR_CKE_NORMAL_EDITOR_REMOVE_BUTTONS}" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="dsr_cke_quick_editor_toolbar_groups">{L_ACP_DSR_CKE_QUICK_TOOLBAR_GROUPS_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_QUICK_TOOLBAR_GROUPS_DESC}</span></dt>
+			<dd><textarea id="dsr_cke_quick_editor_toolbar_groups" name="dsr_cke_quick_editor_toolbar_groups" rows="5" cols="40">{DSR_CKE_QUICK_EDITOR_TOOLBAR_GROUPS}</textarea></dd>
+		</dl>
+		<dl>
+			<dt><label for="dsr_cke_quick_editor_remove_buttons">{L_ACP_DSR_CKE_QUICK_REMOVE_BUTTONS_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_QUICK_REMOVE_BUTTONS_DESC}</span></dt>
+			<dd><input type="text" class="input" size="60" maxlength="255" id="dsr_cke_quick_editor_remove_buttons" name="dsr_cke_quick_editor_remove_buttons" value="{DSR_CKE_QUICK_EDITOR_REMOVE_BUTTONS}" /></dd>
+		</dl>
+		<dl>
+			<dt><label>{L_ACP_DSR_CKE_TOOLBAR_HINT_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_TOOLBAR_HINT_DESC}</span></dt>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<legend>{L_ACP_DSR_CKE_EXTENSIONS}{L_COLON}</legend>
+		<dl>
+			<dt><label for="dsr_cke_imgur_client_id">{L_ACP_DSR_CKE_IMGUR_CLIENT_ID_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_IMGUR_CLIENT_ID_DESC}</span></dt>
+			<dd><input type="text" class="input" size="60" maxlength="255" id="dsr_cke_imgur_client_id" name="dsr_cke_imgur_client_id" value="{DSR_CKE_IMGUR_CLIENT_ID}" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="dsr_cke_code_snippet_theme">{L_ACP_DSR_CKE_CODE_SNIPPET_THEME_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_CODE_SNIPPET_THEME_DESC}</span></dt>
+			<dd><input type="text" class="input" size="60" maxlength="255" id="dsr_cke_code_snippet_theme" name="dsr_cke_code_snippet_theme" value="{DSR_CKE_CODE_SNIPPET_THEME}" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="dsr_cke_code_snippet_languages">{L_ACP_DSR_CKE_CODE_SNIPPET_LANGUAGES_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_CODE_SNIPPET_LANGUAGES_DESC}</span></dt>
+			<dd><textarea id="dsr_cke_code_snippet_languages" name="dsr_cke_code_snippet_languages" rows="5" cols="40">{DSR_CKE_CODE_SNIPPET_LANGUAGES}</textarea></dd>
+		</dl>
+		<dl>
+			<dt><label>{L_ACP_DSR_CKE_EXTENSIONS_HINT_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_EXTENSIONS_HINT_DESC}</span></dt>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<legend>{L_ACP_SUBMIT_CHANGES}</legend>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+		</p>
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+
+<!-- INCLUDE overall_footer.html -->

@@ -5,6 +5,8 @@ services:
             - '@dbal.conn'
             - '@template'
             - '@config'
+            - '@config_text'
+            - '@cache'
             - '@user'
             - '@language'
             - '%core.root_path%'

@@ -15,23 +15,29 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class main_listener implements EventSubscriberInterface
 {
     /** @var \phpbb\template\template */
-    private $template;
+    protected $template;
     /** @var \phpbb\user */
-    private $user;
+    protected $user;
     /** @var \phpbb\config\config */
-    private $config;
+    protected $config;
+    /** @var \phpbb\config\db_text */
+    protected $config_text;
+    /** @var \phpbb\cache\service */
+    protected $cache;
     /** @var \phpbb\db\driver\driver_interface */
-    private $db;
+    protected $db;
     /** @var \phpbb\language\language */
-    private $language;
+    protected $language;
 
-    private $root_path;
-    private $ckeditor_path;
+    protected $root_path;
+    protected $ckeditor_path;
 
     public function __construct(
         \phpbb\db\driver\driver_interface $db,
         \phpbb\template\template $template,
         \phpbb\config\config $config,
+        \phpbb\config\db_text $config_text,
+        \phpbb\cache\service $cache,
         \phpbb\user $user,
         \phpbb\language\language $language,
         $root_path
@@ -39,6 +45,8 @@ class main_listener implements EventSubscriberInterface
         $this->template         = $template;
         $this->user             = $user;
         $this->config           = $config;
+        $this->config_text      = $config_text;
+        $this->cache            = $cache;
         $this->db               = $db;
         $this->language         = $language;
         $this->root_path        = $root_path;
@@ -53,6 +61,22 @@ class main_listener implements EventSubscriberInterface
             //'core.generate_smilies_after'         => 'initialize_editor',
             //'core.modify_posting_auth'            => 'initialize_editor',
         );
+    }
+
+    private function _get_config_text($key, $isJson)
+    {
+        $config = $this->config_text->get($key);
+        if (!$isJson) {
+            return $config;
+        }
+
+        // delete extra chars
+        //$config = str_replace(["\r\n", "\n", "\r", " "], '', $config);
+
+        // fix invalid json quotes
+        $config = str_replace("'", '"', $config);
+
+        return json_decode($config);
     }
 
     private function _get_lang()
@@ -75,10 +99,10 @@ class main_listener implements EventSubscriberInterface
         $root_path = $this->root_path;
 
         $sql = 'SELECT *
-                    FROM ' . SMILIES_TABLE . '
-                    WHERE display_on_posting = 1
-                    ORDER BY smiley_order';
-        $result = $this->db->sql_query($sql, 3600);
+                FROM ' . SMILIES_TABLE . '
+                WHERE display_on_posting = 1
+                ORDER BY smiley_order';
+        $result = $this->db->sql_query($sql, $this->config['dsr_cke_cache_time']);
         while ($row = $this->db->sql_fetchrow($result))
         {
             $this->template->assign_block_vars('smiley', array(
@@ -102,47 +126,31 @@ class main_listener implements EventSubscriberInterface
 
     private function _initialize_editor($is_viewtopic)
     {
+        $cache = $this->cache->get_driver();
+        $cache_key = $is_viewtopic ? '_dsr_ckeditor_editor_config_quick' : '_dsr_ckeditor_editor_config_normal';
+        if (($editor_config = $cache->get($cache_key)) === false) {
+            $toolbar_groups_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_toolbar_groups' : 'dsr_cke_normal_editor_toolbar_groups';
+            $remove_buttons_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_remove_buttons' : 'dsr_cke_normal_editor_remove_buttons';
 
-        $editor_normal_toolbar = [
-            [ 'name' => 'basicstyles' ],
-            [ 'name' => 'styles' ],
-            [ 'name' => 'colors' ],
-            [ 'name' => 'paragraph',   'groups' => [ 'align', 'list', 'indent', 'blocks', 'bidi' ] ],
-            [ 'name' => 'editing',     'groups' => [ 'find', 'selection', 'spellchecker', 'cleanup', 'undo'  ] ],
-            [ 'name' => 'forms' ],
-            [ 'name' => 'links' ],
-            [ 'name' => 'insert' ],
-            [ 'name' => 'others',      'groups' => [ 'customBBcode' ] ],
-            [ 'name' => 'document',    'groups' => [ 'tools', 'mode', 'document', 'doctools' ] ],
-        ];
-        $editor_quick_toolbar = [
-            [ 'name' => 'basicstyles' ],
-            [ 'name' => 'styles' ],
-            [ 'name' => 'colors' ],
-            [ 'name' => 'insert' ],
-            [ 'name' => 'document',    'groups' => [ 'tools', 'mode', 'document', 'doctools' ] ],
-        ];
-        $remove_buttons_normal_toolbar = 'BGColor,Anchor,Font,Indent,Outdent';
-        $remove_buttons_quick_toolbar  = 'BGColor,Anchor,Font,Indent,Outdent,Table,HorizontalRule';
-
-        // code snippet
-        // first install this!!!
-        // https://github.com/s9e/phpbb-ext-highlighter
-        $code_snippet_theme = 'monokai_sublime';
-        $code_snippet_languages = false;
-
-        $this->template->assign_vars(array(
-            'CKE_STATUS' => true,
-            'CKE_CONFIG' => json_encode([
-                'lang' => $this->_get_lang(),
+            $editor_config = json_encode([
                 'maxFontSize' => $this->config['max_post_font_size'],
-                'toolbarGroups' => $is_viewtopic ? $editor_quick_toolbar : $editor_normal_toolbar,
-                'removeButtons' => $is_viewtopic ? $remove_buttons_quick_toolbar : $remove_buttons_normal_toolbar,
-                'codeSnippetTheme' => $code_snippet_theme,
-                'codeSnippetLanguages' => $code_snippet_languages,
-                'imgurClientId' => false,
-            ]),
-        ));
+                'toolbarGroups' => $this->_get_config_text($toolbar_groups_config_name, true),
+                'removeButtons' => $this->_get_config_text($remove_buttons_config_name, false),
+                'imgurClientId' => $this->config['dsr_cke_imgur_client_id'],
+
+                // first install https://github.com/s9e/phpbb-ext-highlighter
+                'codeSnippetTheme' => $this->config['dsr_cke_code_snippet_theme'],
+                'codeSnippetLanguages' => $this->_get_config_text('dsr_cke_normal_editor_toolbar_groups', true),
+            ], JSON_HEX_QUOT | JSON_HEX_APOS);
+
+            $cache->put($cache_key, $editor_config, $this->config['dsr_cke_cache_time']);
+        }
+
+        $this->template->assign_vars([
+            'CKE_STATUS' => $this->config['dsr_cke_status'],
+            'CKE_LANG'   => $this->_get_lang(),
+            'CKE_CONFIG' => $editor_config,
+        ]);
     }
 
     public function initialize_editor() {

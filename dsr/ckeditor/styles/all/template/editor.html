@@ -1,4 +1,8 @@
 <style type="text/css">
+    .cke_button__source_label {
+        display: none;
+    }
+
     {% if custom_tags %}
         {% for tag in custom_tags %}
             .cke_button__{{ tag.BBCODE_TAG }}_icon {
@@ -8,16 +12,14 @@
             .cke_hidpi .cke_button__{{ tag.BBCODE_TAG }}_icon {
                 background-image: url('./images/editor/custom/{{ tag.BBCODE_TAG }}.hidpi.png') !important;
             }
-
-            .cke_button__source_label {
-                display: none;
-            }
         {% endfor %}
     {% endif %}
 </style>
 
 <script type="text/javascript">
     var ckeConfig = JSON.parse('{{ CKE_CONFIG }}');
+
+    ckeConfig.lang = '{{ CKE_LANG }}';
 
     // some of this is from styles/xxxxxxxx/template/posting_buttons.html
     ckeConfig.defaultFontSizes = {
