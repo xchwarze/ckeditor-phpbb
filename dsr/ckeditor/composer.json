@@ -21,6 +21,12 @@
     "display-name": "CKEditor 4",
     "soft-require": {
       "phpbb/phpbb": ">=3.2.0"
+    },
+    "version-check": {
+      "host": "raw.githubusercontent.com",
+      "directory": "/xchwarze/ckeditor-phpbb/master",
+      "filename": "last_ext_version.json",
+      "ssl": true
     }
   }
 }
