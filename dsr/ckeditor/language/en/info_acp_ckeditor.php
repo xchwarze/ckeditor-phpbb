@@ -19,10 +19,12 @@ $lang = array_merge($lang, [
     'ACP_DSR_CKE_JSON_ERROR'    =>  'The JSON arrangement entered is invalid.',
 
     // ACP TEXTS
-    'ACP_DSR_CKE_STATUS'		    =>	'General settings',
-    'ACP_DSR_CKE_STATUS_TEXT'	    =>  'Enable',
-    'ACP_DSR_CKE_CACHE_TIME_TEXT'   =>  'Cache time',
-    'ACP_DSR_CKE_CACHE_TIME_DESC'   =>  'All the queries made by this extension will be cached for these seconds.<br> For debugging you can set it to 0 and its maximum value is 86400',
+    'ACP_DSR_CKE_STATUS'		        =>	'General settings',
+    'ACP_DSR_CKE_STATUS_TEXT'	        =>  'Enable',
+    'ACP_DSR_CKE_USE_AUTO_SAVE_TEXT'    =>  'Use autosave',
+    'ACP_DSR_CKE_USE_AUTO_SAVE_DESC'    =>  'Activate the autosave feature',
+    'ACP_DSR_CKE_CACHE_TIME_TEXT'       =>  'Cache time',
+    'ACP_DSR_CKE_CACHE_TIME_DESC'       =>  'All the queries made by this extension will be cached for these seconds.<br> For debugging you can set it to 0 and its maximum value is 86400',
 
     'ACP_DSR_CKE_TOOLBAR'		                =>	'Toolbar settings',
     'ACP_DSR_CKE_NORMAL_TOOLBAR_GROUPS_TEXT'	=>	'Toolbar groups',

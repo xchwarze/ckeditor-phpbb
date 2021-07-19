@@ -51,8 +51,9 @@ class acp_module
             }
 
             $submit_data = [
-                'dsr_cke_status'			            => $request->variable('dsr_cke_status', true),
+                'dsr_cke_status'			            => $request->variable('dsr_cke_status', 1),
                 'dsr_cke_cache_time'		            => $request->variable('dsr_cke_cache_time', 0),
+                'dsr_cke_use_auto_save'		            => $request->variable('dsr_cke_use_auto_save', 1),
                 'dsr_cke_normal_editor_toolbar_groups'  => $request->variable('dsr_cke_normal_editor_toolbar_groups', ''),
                 'dsr_cke_normal_editor_remove_buttons'  => $request->variable('dsr_cke_normal_editor_remove_buttons', ''),
                 'dsr_cke_quick_editor_toolbar_groups'   => $request->variable('dsr_cke_quick_editor_toolbar_groups', ''),
@@ -63,7 +64,9 @@ class acp_module
             ];
 
             $validation_checks = [
+                'dsr_cke_status'                        => ['num', true, 0, 1],
                 'dsr_cke_cache_time'                    => ['num', true, 0, 86400],
+                'dsr_cke_use_auto_save'                 => ['num', true, 0, 1],
                 'dsr_cke_normal_editor_toolbar_groups'  => ['string', true, 0, 5000],
                 'dsr_cke_normal_editor_remove_buttons'  => ['string', true, 0, 1000],
                 'dsr_cke_quick_editor_toolbar_groups'   => ['string', true, 0, 5000],
@@ -79,6 +82,7 @@ class acp_module
             if (!count($validation_error)) {
                 $config->set('dsr_cke_status', $submit_data['dsr_cke_status']);
                 $config->set('dsr_cke_cache_time', $submit_data['dsr_cke_cache_time']);
+                $config->set('dsr_cke_use_auto_save', $submit_data['dsr_cke_use_auto_save']);
                 $config_text->set('dsr_cke_normal_editor_toolbar_groups', $submit_data['dsr_cke_normal_editor_toolbar_groups']);
                 $config_text->set('dsr_cke_normal_editor_remove_buttons', $submit_data['dsr_cke_normal_editor_remove_buttons']);
                 $config_text->set('dsr_cke_quick_editor_toolbar_groups', $submit_data['dsr_cke_quick_editor_toolbar_groups']);
@@ -94,6 +98,7 @@ class acp_module
         $template->assign_vars([
             'DSR_CKE_STATUS'                        => $config['dsr_cke_status'],
             'DSR_CKE_CACHE_TIME'                    => $config['dsr_cke_cache_time'],
+            'DSR_CKE_USE_AUTO_SAVE'                 => $config['dsr_cke_use_auto_save'],
             'DSR_CKE_NORMAL_EDITOR_TOOLBAR_GROUPS'  => $config_text->get('dsr_cke_normal_editor_toolbar_groups'),
             'DSR_CKE_NORMAL_EDITOR_REMOVE_BUTTONS'  => $config_text->get('dsr_cke_normal_editor_remove_buttons'),
             'DSR_CKE_QUICK_EDITOR_TOOLBAR_GROUPS'   => $config_text->get('dsr_cke_quick_editor_toolbar_groups'),

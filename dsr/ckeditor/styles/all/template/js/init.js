@@ -72,6 +72,7 @@ function dsrCkeditorGenSmileyConfig() {
 			disableObjectResizing: true,
 			disableNativeSpellChecker: false,
 			extraPlugins: 'bbcode,custombbcode,youtube,mentions',
+			removePlugins: '',
 			bbcode_bbcodeMap: {
 				b: 'strong', u: 'u', i: 'em', s: 's', sub: 'sub', sup: 'sup', color: 'span', size: 'span', left: 'div', right: 'div',
 				center: 'div', justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li',
@@ -93,11 +94,6 @@ function dsrCkeditorGenSmileyConfig() {
 			smiley_images: smiley_config.images,
 			smiley_descriptions: smiley_config.descriptions,
 			smiley_path: './',
-			autosave: {
-				saveDetectionSelectors: 'input[name*="post"],input[name*="save"],input[name*="preview"]',
-				saveOnDestroy: false,
-				messageType: 'no',
-			},
 			//image_prefillDimensions: false,
 			on: {
 				setData: function(event) {
@@ -113,6 +109,19 @@ function dsrCkeditorGenSmileyConfig() {
 				},
 			}
 		};
+
+	if (ckeConfig.useAutoSave) {
+		config.extraPlugins = config.extraPlugins + ',autosave';
+		config.autosave = {
+			//Savekey : 'autosave_' + window.location + "_" + $('#' + editor.name).attr('name'),
+			NotOlderThen : 180,
+			saveDetectionSelectors: 'input[name*="post"],input[name*="save"],input[name*="preview"]',
+			saveOnDestroy: false,
+			messageType: 'no',
+		};
+	} else {
+		config.removePlugins = 'autosave';
+	}
 
 	// phpbb-ext-highlighter
 	if (ckeConfig.codeSnippetTheme) {

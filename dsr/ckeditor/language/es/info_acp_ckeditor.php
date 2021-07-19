@@ -19,10 +19,12 @@ $lang = array_merge($lang, [
     'ACP_DSR_CKE_JSON_ERROR'    =>  'El arreglo JSON ingresado no es válido.',
 
     // ACP TEXTS
-    'ACP_DSR_CKE_STATUS'		    =>	'Ajustes generales',
-    'ACP_DSR_CKE_STATUS_TEXT'   	=>	'Habilitar',
-    'ACP_DSR_CKE_CACHE_TIME_TEXT'   =>  'Tiempo de cache',
-    'ACP_DSR_CKE_CACHE_TIME_DESC'   =>  'Todas las querys que realice esta extensión serán cacheadas por estos segundos.<br> Para debug puedes ponerlo en 0 y su valor máximo es 86400',
+    'ACP_DSR_CKE_STATUS'		        =>	'Ajustes generales',
+    'ACP_DSR_CKE_STATUS_TEXT'          	=>	'Habilitar',
+    'ACP_DSR_CKE_USE_AUTO_SAVE_TEXT'    =>  'Usar autoguardado',
+    'ACP_DSR_CKE_USE_AUTO_SAVE_DESC'    =>  'Activa el mecanismo de autoguardado',
+    'ACP_DSR_CKE_CACHE_TIME_TEXT'       =>  'Tiempo de cache',
+    'ACP_DSR_CKE_CACHE_TIME_DESC'       =>  'Todas las querys que realice esta extensión serán cacheadas por estos segundos.<br> Para debug puedes ponerlo en 0 y su valor máximo es 86400',
 
     'ACP_DSR_CKE_TOOLBAR'		                =>	'Ajustes de toolbars',
     'ACP_DSR_CKE_NORMAL_TOOLBAR_GROUPS_TEXT'	=>	'Grupos de herramientas',

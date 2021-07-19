@@ -19,6 +19,12 @@
 				<input type="radio" class="radio" name="dsr_cke_status" value="0" <!-- IF not DSR_CKE_STATUS -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
 		</dl>
 		<dl>
+			<dt><label>{L_ACP_DSR_CKE_USE_AUTO_SAVE_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_USE_AUTO_SAVE_DESC}</span></dt>
+			<dd><input type="radio" class="radio" name="dsr_cke_use_auto_save" value="1" <!-- IF DSR_CKE_USE_AUTO_SAVE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp
+				<input type="radio" class="radio" name="dsr_cke_use_auto_save" value="0" <!-- IF not DSR_CKE_USE_AUTO_SAVE -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+		<dl>
 			<dt><label for="dsr_cke_cache_time">{L_ACP_DSR_CKE_CACHE_TIME_TEXT}</label><br />
 				<span>{L_ACP_DSR_CKE_CACHE_TIME_DESC}</span></dt>
 			<dd><input type="number" name="dsr_cke_cache_time" id="dsr_cke_cache_time" size="10" maxlength="5" value="{DSR_CKE_CACHE_TIME}"></dd>

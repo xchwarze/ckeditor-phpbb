@@ -14,6 +14,7 @@ class add_module extends \phpbb\db\migration\migration
 		return [
             ['config.add', ['dsr_cke_status', 1]],
             ['config.add', ['dsr_cke_cache_time', 0]],
+            ['config.add', ['dsr_cke_use_auto_save', 1]],
             ['config.add', ['dsr_cke_imgur_client_id', '']],
             ['config.add', ['dsr_cke_code_snippet_theme', '']],
 
@@ -66,6 +67,7 @@ class add_module extends \phpbb\db\migration\migration
             ['config.remove', [
                 'dsr_cke_status',
                 'dsr_cke_cache_time',
+                'dsr_cke_use_auto_save',
                 'dsr_cke_imgur_client_id',
                 'dsr_cke_code_snippet_theme',
             ]],

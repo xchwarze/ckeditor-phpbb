@@ -133,21 +133,20 @@ class main_listener implements EventSubscriberInterface
             $remove_buttons_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_remove_buttons' : 'dsr_cke_normal_editor_remove_buttons';
 
             $editor_config = json_encode([
-                'maxFontSize' => $this->config['max_post_font_size'],
-                'toolbarGroups' => $this->_get_config_text($toolbar_groups_config_name, true),
-                'removeButtons' => $this->_get_config_text($remove_buttons_config_name, false),
-                'imgurClientId' => $this->config['dsr_cke_imgur_client_id'],
-
-                // first install https://github.com/s9e/phpbb-ext-highlighter
-                'codeSnippetTheme' => $this->config['dsr_cke_code_snippet_theme'],
-                'codeSnippetLanguages' => $this->_get_config_text('dsr_cke_code_snippet_languages', true),
+                'maxFontSize'           => $this->config['max_post_font_size'],
+                'useAutoSave'           => (bool)$this->config['dsr_cke_use_auto_save'],
+                'toolbarGroups'         => $this->_get_config_text($toolbar_groups_config_name, true),
+                'removeButtons'         => $this->_get_config_text($remove_buttons_config_name, false),
+                'imgurClientId'         => $this->config['dsr_cke_imgur_client_id'],
+                'codeSnippetTheme'      => $this->config['dsr_cke_code_snippet_theme'],
+                'codeSnippetLanguages'  => $this->_get_config_text('dsr_cke_code_snippet_languages', true),
             ], JSON_HEX_QUOT | JSON_HEX_APOS);
 
             $cache->put($cache_key, $editor_config, $this->config['dsr_cke_cache_time']);
         }
 
         $this->template->assign_vars([
-            'CKE_STATUS' => $this->config['dsr_cke_status'],
+            'CKE_STATUS' => (bool)$this->config['dsr_cke_status'],
             'CKE_LANG'   => $this->_get_lang(),
             'CKE_CONFIG' => $editor_config,
         ]);
