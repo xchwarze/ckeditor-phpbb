@@ -1,6 +1,6 @@
 /**
  * Simple Code Snippet Selector
- * v1.0.0
+ * v1.1.0
  * by DSR! (https://github.com/xchwarze)
  * Based on: https://github.com/ckeditor/ckeditor4/blob/master/plugins/codesnippet/plugin.js
  */
@@ -59,8 +59,12 @@ CKEDITOR.config.codeSnippet_languages = {};
 
                 langSelectItems.push( [ editor.lang.common.notSet, '' ] );
 
-                for ( snippetLangId in snippetLangs )
-                    langSelectItems.push( [ snippetLangs[ snippetLangId ], snippetLangId ] );
+                for ( snippetLangId in snippetLangs ) {
+                    var item = snippetLangs[ snippetLangId ];
+                    if (item.hasOwnProperty('label')) {
+                        langSelectItems.push( [ item.label, item.lang ] );
+                    }
+                }
 
                 // TODO entiendo que esto es codigo legacy del plugin original
                 // Size adjustments.

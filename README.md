@@ -14,7 +14,7 @@
 * Clean code (no spaghetti code)
 
 ## How to install
-* Just copy folder dsr/ to {PHPBB_ROOT}/ext/
+Just copy folder dsr/ to {PHPBB_ROOT}/ext/
 
 ## Custom BBcode tags
 * Place custom buttons icons in ./images/editor/custom/
@@ -27,37 +27,29 @@
 
 ## Imgur
 * Create Imgur app
-* Configure imgurClientId in ext/dsr/ckeditor/event/main_listener.php
-```
-    'CKE_CONFIG' => json_encode([
-        'lang' => $this->_get_lang(),
-        'maxFontSize' => $this->config['max_post_font_size'],
-        'toolbarGroups' => $is_viewtopic ? $editor_quick_toolbar : $editor_normal_toolbar,
-        'removeButtons' => $is_viewtopic ? $remove_buttons_quick_toolbar : $remove_buttons_normal_toolbar,
-        'codeSnippetTheme' => $code_snippet_theme,
-        'codeSnippetLanguages' => $code_snippet_languages,
-        'imgurClientId' => 'xxxxxxxxxxxxxxxxxxxxx',
-    ]),
-```
+* Set "Imgur Client ID" in settings menu
 
 ## Mentions
 * Install https://github.com/paul999/mention from master
 
 ## Code Snippet and syntax highlighter
 * Install https://github.com/s9e/phpbb-ext-highlighter
-* Configure code_snippet_languages in ext/dsr/ckeditor/event/main_listener.php
+* Set "Theme used in the code snippet" and "Snippet code languages" in settings menu
+
 ```
-    $code_snippet_theme = 'monokai_sublime';
-    $code_snippet_languages = [
-        'arduino' => 'Arduino',
-        'autoit' => 'Autoit',
-        'bash' => 'Bash',
-        'basic' => 'Basic',
-        'cpp' => 'C/C++',
-        'cs' => 'C#',
-        'css' => 'CSS',
-        'delphi' => 'Delphi'
-    ];
+# Snippet code languages example:
+[
+  { 'label': 'Arduino', 'lang': 'arduino' },
+  { 'label': 'Autoit', 'lang': 'autoit' },
+  { 'label': 'Bash', 'lang': 'bash' },
+  { 'label': 'Basic', 'lang': 'basic' },
+  { 'label': 'C/C++', 'lang': 'cpp' },
+  { 'label': 'C#', 'lang': 'cs' },
+  { 'label': 'CSS', 'lang': 'css' },
+  { 'label': 'Delphi', 'lang': 'delphi' },
+  { 'label': 'Diff', 'lang': 'diff' },
+  { 'label': 'Dockerfile', 'lang': 'dockerfile' }
+]
 ```
 
 ## Compatibility ##

@@ -31,7 +31,7 @@ class acp_module
         $language = $phpbb_container->get('language');
 
         $user->add_lang('acp/common');
-        $user->add_lang_ext('dsr/ckeditor', 'acp_common');
+        $user->add_lang_ext('dsr/ckeditor', 'info_acp_ckeditor');
         $this->tpl_name = 'acp_ckeditor';
         $this->page_title = 'ACP_DSR_CKE_TITLE';
         add_form_key('acp_ckeditor');

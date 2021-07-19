@@ -140,7 +140,7 @@ class main_listener implements EventSubscriberInterface
 
                 // first install https://github.com/s9e/phpbb-ext-highlighter
                 'codeSnippetTheme' => $this->config['dsr_cke_code_snippet_theme'],
-                'codeSnippetLanguages' => $this->_get_config_text('dsr_cke_normal_editor_toolbar_groups', true),
+                'codeSnippetLanguages' => $this->_get_config_text('dsr_cke_code_snippet_languages', true),
             ], JSON_HEX_QUOT | JSON_HEX_APOS);
 
             $cache->put($cache_key, $editor_config, $this->config['dsr_cke_cache_time']);

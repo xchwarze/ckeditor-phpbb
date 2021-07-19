@@ -16,7 +16,7 @@ $lang = array_merge($lang, [
     'ACP_DSR_CKE_SETTING'		=>	'Ajustes',
     'ACP_DSR_CKE_EXPLAIN'		=>	'Mejora los editores de texto que usa el usuario por el poderoso CKEditor',
     'ACP_DSR_CKE_SAVED'		    =>  'Cambios guardados.',
-    'ACP_DSR_CKE_JSON_ERROR'    =>  'El arreglo Javascript ingresado no es válido.',
+    'ACP_DSR_CKE_JSON_ERROR'    =>  'El arreglo JSON ingresado no es válido.',
 
     // ACP TEXTS
     'ACP_DSR_CKE_STATUS'		    =>	'Ajustes generales',
