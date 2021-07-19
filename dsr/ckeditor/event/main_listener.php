@@ -107,7 +107,8 @@ class main_listener implements EventSubscriberInterface
         {
             $this->template->assign_block_vars('smiley', array(
                 'SMILEY_CODE'   => $row['code'],
-                'A_SMILEY_CODE' => addslashes($row['code']),
+                //'A_SMILEY_CODE' => addslashes($row['code']),
+                'A_SMILEY_CODE' => $row['code'],
                 'SMILEY_IMG'    => $root_path . $this->config['smilies_path'] . '/' . $row['smiley_url'],
                 'SMILEY_WIDTH'  => $row['smiley_width'],
                 'SMILEY_HEIGHT' => $row['smiley_height'],
