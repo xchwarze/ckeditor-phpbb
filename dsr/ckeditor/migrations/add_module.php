@@ -37,6 +37,7 @@ class add_module extends \phpbb\db\migration\migration
                 { 'name': 'colors' },
                 { 'name': 'links' },
                 { 'name': 'insert' },
+		{ 'name': 'others',      'groups': [ 'customBBcode' ] },
                 { 'name': 'document',    'groups': [ 'tools', 'mode', 'document', 'doctools' ] }
             ]"]],
             ['config_text.add', ['dsr_cke_quick_editor_remove_buttons', 'Subscript,Superscript,BGColor,Anchor,Font,Indent,Outdent,Table,HorizontalRule']],
