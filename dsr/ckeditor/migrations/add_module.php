@@ -30,7 +30,7 @@ class add_module extends \phpbb\db\migration\migration
                 { 'name': 'others',      'groups': [ 'customBBcode' ] },
                 { 'name': 'document',    'groups': [ 'tools', 'mode', 'document', 'doctools' ] }
             ]"]],
-            ['config_text.add', ['dsr_cke_normal_editor_remove_buttons', 'BGColor,Anchor,Font,Indent,Outdent']],
+            ['config_text.add', ['dsr_cke_normal_editor_remove_buttons', 'BGColor,Anchor,Font,Indent,Outdent,JustifyBlock']],
             ['config_text.add', ['dsr_cke_quick_editor_toolbar_groups', "[
                 { 'name': 'basicstyles' },
                 { 'name': 'styles' },
