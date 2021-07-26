@@ -53,10 +53,6 @@ function dsrCkeditorGenSmileyConfig() {
 	return parsed;
 }
 
-// disable auto loading of config.js and styles.js
-CKEDITOR.config.customConfig = '';
-CKEDITOR.config.stylesSet = false;
-
 ( function() {
 	var is_message = document.getElementsByName('message').length !== 0,
 		is_signature  = document.getElementsByName('signature').length !== 0;
@@ -173,6 +169,11 @@ CKEDITOR.config.stylesSet = false;
 		config.language = ckeConfig.lang;
 	}
 
+	// disable auto loading of config.js and styles.js
+	CKEDITOR.config.customConfig = '';
+	CKEDITOR.config.stylesSet = false;
+	
+	// load editor
 	CKEDITOR.replace(is_message ? 'message' : 'signature', config);
 } )();
 
