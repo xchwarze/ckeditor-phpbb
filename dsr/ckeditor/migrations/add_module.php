@@ -9,9 +9,9 @@ class add_module extends \phpbb\db\migration\migration
         return ['\dsr\ckeditor\migrations\add_bbcode'];
     }
 
-	public function update_data()
-	{
-		return [
+    public function update_data()
+    {
+        return [
             ['config.add', ['dsr_cke_status', 1]],
             ['config.add', ['dsr_cke_cache_time', 0]],
             ['config.add', ['dsr_cke_use_auto_save', 1]],
@@ -54,12 +54,12 @@ class add_module extends \phpbb\db\migration\migration
                 'acp',
                 'ACP_DSR_CKE_TITLE',
                 [
-                    'module_basename'	=> '\dsr\ckeditor\acp\acp_module',
-                    'modes'				=> ['settings'],
+                    'module_basename' => '\dsr\ckeditor\acp\acp_module',
+                    'modes' => ['settings'],
                 ]
             ]],
         ];
-	}
+    }
 
     public function revert_data()
     {
@@ -84,8 +84,8 @@ class add_module extends \phpbb\db\migration\migration
                 'acp',
                 'ACP_DSR_CKE_TITLE',
                 [
-                    'module_basename'	=> '\dsr\ckeditor\acp\acp_module',
-                    'modes'				=> ['settings'],
+                    'module_basename' => '\dsr\ckeditor\acp\acp_module',
+                    'modes' => ['settings'],
                 ]
             ]],
             ['module.remove', [

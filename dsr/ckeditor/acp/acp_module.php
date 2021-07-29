@@ -37,48 +37,45 @@ class acp_module
         add_form_key('acp_ckeditor');
 
         // tendria que haber una forma mas moderna de hacer la validacion del formulario
-        if (!function_exists('validate_data'))
-        {
+        if (!function_exists('validate_data')) {
             include("{$phpbb_root_path}includes/functions_user.{$phpEx}");
         }
 
         $validation_error = false;
-        if ($request->is_set_post('submit'))
-        {
-            if (!check_form_key('acp_ckeditor'))
-            {
+        if ($request->is_set_post('submit')) {
+            if (!check_form_key('acp_ckeditor')) {
                 trigger_error('FORM_INVALID');
             }
 
             $submit_data = [
-                'dsr_cke_status'			            => $request->variable('dsr_cke_status', 1),
-                'dsr_cke_cache_time'		            => $request->variable('dsr_cke_cache_time', 0),
-                'dsr_cke_use_auto_save'		            => $request->variable('dsr_cke_use_auto_save', 1),
-                'dsr_cke_use_emojis'		            => $request->variable('dsr_cke_use_emojis', 1),
-                'dsr_cke_force_paste_as_text'		    => $request->variable('dsr_cke_force_paste_as_text', 1),
-                'dsr_cke_force_source_on_mobile'		=> $request->variable('dsr_cke_force_source_on_mobile', 1),
-                'dsr_cke_normal_editor_toolbar_groups'  => $request->variable('dsr_cke_normal_editor_toolbar_groups', ''),
-                'dsr_cke_normal_editor_remove_buttons'  => $request->variable('dsr_cke_normal_editor_remove_buttons', ''),
-                'dsr_cke_quick_editor_toolbar_groups'   => $request->variable('dsr_cke_quick_editor_toolbar_groups', ''),
-                'dsr_cke_quick_editor_remove_buttons'   => $request->variable('dsr_cke_quick_editor_remove_buttons', ''),
-                'dsr_cke_imgur_client_id'               => $request->variable('dsr_cke_imgur_client_id', ''),
-                'dsr_cke_code_snippet_theme'            => $request->variable('dsr_cke_code_snippet_theme', ''),
-                'dsr_cke_code_snippet_languages'        => $request->variable('dsr_cke_code_snippet_languages', ''),
+                'dsr_cke_status' => $request->variable('dsr_cke_status', 1),
+                'dsr_cke_cache_time' => $request->variable('dsr_cke_cache_time', 0),
+                'dsr_cke_use_auto_save' => $request->variable('dsr_cke_use_auto_save', 1),
+                'dsr_cke_use_emojis' => $request->variable('dsr_cke_use_emojis', 1),
+                'dsr_cke_force_paste_as_text' => $request->variable('dsr_cke_force_paste_as_text', 1),
+                'dsr_cke_force_source_on_mobile' => $request->variable('dsr_cke_force_source_on_mobile', 1),
+                'dsr_cke_normal_editor_toolbar_groups' => $request->variable('dsr_cke_normal_editor_toolbar_groups', ''),
+                'dsr_cke_normal_editor_remove_buttons' => $request->variable('dsr_cke_normal_editor_remove_buttons', ''),
+                'dsr_cke_quick_editor_toolbar_groups' => $request->variable('dsr_cke_quick_editor_toolbar_groups', ''),
+                'dsr_cke_quick_editor_remove_buttons' => $request->variable('dsr_cke_quick_editor_remove_buttons', ''),
+                'dsr_cke_imgur_client_id' => $request->variable('dsr_cke_imgur_client_id', ''),
+                'dsr_cke_code_snippet_theme' => $request->variable('dsr_cke_code_snippet_theme', ''),
+                'dsr_cke_code_snippet_languages' => $request->variable('dsr_cke_code_snippet_languages', ''),
             ];
 
             $validation_checks = [
-                'dsr_cke_status'                        => ['num', true, 0, 1],
-                'dsr_cke_cache_time'                    => ['num', true, 0, 86400],
-                'dsr_cke_use_auto_save'                 => ['num', true, 0, 1],
-                'dsr_cke_use_emojis'                    => ['num', true, 0, 1],
-                'dsr_cke_force_paste_as_text'           => ['num', true, 0, 1],
-                'dsr_cke_force_source_on_mobile'        => ['num', true, 0, 1],
-                'dsr_cke_normal_editor_toolbar_groups'  => ['string', true, 0, 5000],
-                'dsr_cke_normal_editor_remove_buttons'  => ['string', true, 0, 1000],
-                'dsr_cke_quick_editor_toolbar_groups'   => ['string', true, 0, 5000],
-                'dsr_cke_quick_editor_remove_buttons'   => ['string', true, 0, 1000],
-                'dsr_cke_imgur_client_id'               => ['string', true, 0, 255],
-                'dsr_cke_code_snippet_theme'            => ['string', true, 0, 255],
+                'dsr_cke_status' => ['num', true, 0, 1],
+                'dsr_cke_cache_time' => ['num', true, 0, 86400],
+                'dsr_cke_use_auto_save' => ['num', true, 0, 1],
+                'dsr_cke_use_emojis' => ['num', true, 0, 1],
+                'dsr_cke_force_paste_as_text' => ['num', true, 0, 1],
+                'dsr_cke_force_source_on_mobile' => ['num', true, 0, 1],
+                'dsr_cke_normal_editor_toolbar_groups' => ['string', true, 0, 5000],
+                'dsr_cke_normal_editor_remove_buttons' => ['string', true, 0, 1000],
+                'dsr_cke_quick_editor_toolbar_groups' => ['string', true, 0, 5000],
+                'dsr_cke_quick_editor_remove_buttons' => ['string', true, 0, 1000],
+                'dsr_cke_imgur_client_id' => ['string', true, 0, 255],
+                'dsr_cke_code_snippet_theme' => ['string', true, 0, 255],
             ];
 
             $main_validation_error = validate_data($submit_data, $validation_checks);
@@ -105,22 +102,22 @@ class acp_module
         }
 
         $template->assign_vars([
-            'DSR_CKE_STATUS'                        => $config['dsr_cke_status'],
-            'DSR_CKE_CACHE_TIME'                    => $config['dsr_cke_cache_time'],
-            'DSR_CKE_USE_AUTO_SAVE'                 => $config['dsr_cke_use_auto_save'],
-            'DSR_CKE_USE_EMOJIS'                    => $config['dsr_cke_use_emojis'],
-            'DSR_CKE_FORCE_PASTE_AS_TEXT'           => $config['dsr_cke_force_paste_as_text'],
-            'DSR_CKE_FORCE_SOURCE_ON_MOBILE'        => $config['dsr_cke_force_source_on_mobile'],
-            'DSR_CKE_NORMAL_EDITOR_TOOLBAR_GROUPS'  => $config_text->get('dsr_cke_normal_editor_toolbar_groups'),
-            'DSR_CKE_NORMAL_EDITOR_REMOVE_BUTTONS'  => $config_text->get('dsr_cke_normal_editor_remove_buttons'),
-            'DSR_CKE_QUICK_EDITOR_TOOLBAR_GROUPS'   => $config_text->get('dsr_cke_quick_editor_toolbar_groups'),
-            'DSR_CKE_QUICK_EDITOR_REMOVE_BUTTONS'   => $config_text->get('dsr_cke_quick_editor_remove_buttons'),
-            'DSR_CKE_IMGUR_CLIENT_ID'               => $config['dsr_cke_imgur_client_id'],
-            'DSR_CKE_CODE_SNIPPET_THEME'            => $config['dsr_cke_code_snippet_theme'],
-            'DSR_CKE_CODE_SNIPPET_LANGUAGES'        => $config_text->get('dsr_cke_code_snippet_languages'),
-            'S_ERROR'                               => (bool)$validation_error,
-            'ERROR_MSG'	                            => $validation_error ? implode('<br />', array_map(array($language, 'lang'), $validation_error)) : '',
-            'U_ACTION'                              => $this->u_action,
+            'DSR_CKE_STATUS' => $config['dsr_cke_status'],
+            'DSR_CKE_CACHE_TIME' => $config['dsr_cke_cache_time'],
+            'DSR_CKE_USE_AUTO_SAVE' => $config['dsr_cke_use_auto_save'],
+            'DSR_CKE_USE_EMOJIS' => $config['dsr_cke_use_emojis'],
+            'DSR_CKE_FORCE_PASTE_AS_TEXT' => $config['dsr_cke_force_paste_as_text'],
+            'DSR_CKE_FORCE_SOURCE_ON_MOBILE' => $config['dsr_cke_force_source_on_mobile'],
+            'DSR_CKE_NORMAL_EDITOR_TOOLBAR_GROUPS' => $config_text->get('dsr_cke_normal_editor_toolbar_groups'),
+            'DSR_CKE_NORMAL_EDITOR_REMOVE_BUTTONS' => $config_text->get('dsr_cke_normal_editor_remove_buttons'),
+            'DSR_CKE_QUICK_EDITOR_TOOLBAR_GROUPS' => $config_text->get('dsr_cke_quick_editor_toolbar_groups'),
+            'DSR_CKE_QUICK_EDITOR_REMOVE_BUTTONS' => $config_text->get('dsr_cke_quick_editor_remove_buttons'),
+            'DSR_CKE_IMGUR_CLIENT_ID' => $config['dsr_cke_imgur_client_id'],
+            'DSR_CKE_CODE_SNIPPET_THEME' => $config['dsr_cke_code_snippet_theme'],
+            'DSR_CKE_CODE_SNIPPET_LANGUAGES' => $config_text->get('dsr_cke_code_snippet_languages'),
+            'S_ERROR' => (bool)$validation_error,
+            'ERROR_MSG' => $validation_error ? implode('<br />', array_map(array($language, 'lang'), $validation_error)) : '',
+            'U_ACTION' => $this->u_action,
         ]);
     }
 
@@ -135,12 +132,12 @@ class acp_module
 
         $error = [];
         foreach ($validate_json as $validate_json_item_name) {
-            if (empty($submit_data[ $validate_json_item_name ])) {
+            if (empty($submit_data[$validate_json_item_name])) {
                 continue;
             }
 
             // fix invalid json quotes
-            $data = str_replace("'", '"', $submit_data[ $validate_json_item_name ]);
+            $data = str_replace("'", '"', $submit_data[$validate_json_item_name]);
 
             // check invalid value
             if (empty(json_decode($data))) {
