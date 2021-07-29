@@ -3,6 +3,17 @@
         display: none;
     }
 
+    h2#people,
+    h2#nature,
+    h2#food,
+    h2#travel,
+    h2#activities,
+    h2#objects,
+    h2#symbols,
+    h2#flags {
+        display: none;
+    }
+
     {% if custom_tags %}
         {% for tag in custom_tags %}
             .cke_button__{{ tag.BBCODE_TAG }}_icon {
@@ -21,7 +32,7 @@
 
     ckeConfig.lang = '{{ CKE_LANG }}';
 
-    // some of this is from styles/xxxxxxxx/template/posting_buttons.html
+    // some of this is from styles/prosilver/template/posting_buttons.html
     ckeConfig.defaultFontSizes = {
         "{{ lang('FONT_TINY') }}": "50",
         "{{ lang('FONT_SMALL') }}": "85",

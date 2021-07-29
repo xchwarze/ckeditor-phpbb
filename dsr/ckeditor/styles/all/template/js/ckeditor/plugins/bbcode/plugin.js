@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -133,8 +133,7 @@ CKEDITOR.config.bbcode_smileyMap = {
 		// Build regexp for the list of smiley text.
 		for ( var i in smileyMap ) {
 			smileyReverseMap[ smileyMap[ i ] ] = i;
-			// TODO add \(|\)|\:|\/|\*|\-|\?|\| to patch
-			smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\?|\|/g, function( match ) {
+			smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\|/g, function( match ) {
 				return '\\' + match;
 			} ) );
 		}
@@ -465,11 +464,12 @@ CKEDITOR.config.bbcode_smileyMap = {
 						var lastIndex = 0;
 
 						// Create smiley from text emotion.
-						piece.replace( smileyRegExp, function( match, index ) {
-							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, index ) ), currentNode );
-							addElement( new CKEDITOR.htmlParser.element( 'smiley', { desc: smileyReverseMap[ match ] } ), currentNode );
-							lastIndex = index + match.length;
-						} );
+						if (smileyMap)
+							piece.replace( smileyRegExp, function( match, index ) {
+								addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, index ) ), currentNode );
+								addElement( new CKEDITOR.htmlParser.element( 'smiley', { desc: smileyReverseMap[ match ] } ), currentNode );
+								lastIndex = index + match.length;
+							} );
 
 						if ( lastIndex != piece.length )
 							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, piece.length ) ), currentNode );
@@ -653,7 +653,8 @@ CKEDITOR.config.bbcode_smileyMap = {
 			attributesMap = config.bbcode_attributesMap;
 			smileyMap = config.bbcode_smileyMap;
 
-			buildSmileyRegExp();
+			if (smileyMap)
+				buildSmileyRegExp();
 
 			CKEDITOR.tools.extend( config, {
 				// This one is for backwards compatibility only as
@@ -750,9 +751,6 @@ CKEDITOR.config.bbcode_smileyMap = {
 						var lang = element.attributes['data-cke-code-lang'];
 						if (lang) {
 							element.attributes['class'] = 'language-' + lang;
-							//if (typeof hljsLoader !== 'undefined') {
-							//	hljsLoader.highlightBlocks(document.body);
-							//}
 						}
 					},
 				}

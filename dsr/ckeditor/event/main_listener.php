@@ -96,7 +96,6 @@ class main_listener implements EventSubscriberInterface
     {
         // this is based on generate_smilies();
         //$root_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? generate_board_url() . '/' : $phpbb_path_helper->get_web_root_path();
-        $root_path = $this->root_path;
 
         $sql = 'SELECT *
                 FROM ' . SMILIES_TABLE . '
@@ -107,9 +106,8 @@ class main_listener implements EventSubscriberInterface
         {
             $this->template->assign_block_vars('smiley', array(
                 'SMILEY_CODE'   => $row['code'],
-                //'A_SMILEY_CODE' => addslashes($row['code']),
                 'A_SMILEY_CODE' => $row['code'],
-                'SMILEY_IMG'    => $root_path . $this->config['smilies_path'] . '/' . $row['smiley_url'],
+                'SMILEY_IMG'    => $this->root_path . $this->config['smilies_path'] . '/' . $row['smiley_url'],
                 'SMILEY_WIDTH'  => $row['smiley_width'],
                 'SMILEY_HEIGHT' => $row['smiley_height'],
                 'SMILEY_DESC'   => $row['emotion'])
@@ -136,6 +134,9 @@ class main_listener implements EventSubscriberInterface
             $editor_config = json_encode([
                 'maxFontSize'           => $this->config['max_post_font_size'],
                 'useAutoSave'           => (bool)$this->config['dsr_cke_use_auto_save'],
+                'useEmojis'             => (bool)$this->config['dsr_cke_use_emojis'],
+                'forcePasteAsText'      => (bool)$this->config['dsr_cke_force_paste_as_text'],
+                'forceSourceOnMobile'   => (bool)$this->config['dsr_cke_force_source_on_mobile'],
                 'toolbarGroups'         => $this->_get_config_text($toolbar_groups_config_name, true),
                 'removeButtons'         => $this->_get_config_text($remove_buttons_config_name, false),
                 'imgurClientId'         => $this->config['dsr_cke_imgur_client_id'],
@@ -158,14 +159,18 @@ class main_listener implements EventSubscriberInterface
     }
 
     public function initialize_quick_reply_editor() {
+        //$is_viewtopic = $this->user->page['page_name'] === 'viewtopic.php';
+
         // check if user is login first!
         if ( empty($this->user->data['user_id']) || $this->user->data['user_id'] == ANONYMOUS) {
             return;
         }
 
-        //$is_viewtopic = $this->user->page['page_name'] === 'viewtopic.php';
+        if (!(bool)$this->config['dsr_cke_use_emojis']) {
+            $this->_fix_smileys();
+        }
+
         $this->_fix_languages();
-        $this->_fix_smileys();
         $this->_initialize_editor(true);
     }
 }

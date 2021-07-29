@@ -25,6 +25,24 @@
 				<input type="radio" class="radio" name="dsr_cke_use_auto_save" value="0" <!-- IF not DSR_CKE_USE_AUTO_SAVE -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
 		</dl>
 		<dl>
+			<dt><label>{L_ACP_DSR_CKE_USE_EMOJIS_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_USE_EMOJIS_DESC}</span></dt>
+			<dd><input type="radio" class="radio" name="dsr_cke_use_emojis" value="1" <!-- IF DSR_CKE_USE_EMOJIS -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp
+				<input type="radio" class="radio" name="dsr_cke_use_emojis" value="0" <!-- IF not DSR_CKE_USE_EMOJIS -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label>{L_ACP_DSR_CKE_FORCE_PASTE_AS_TEXT_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_FORCE_PASTE_AS_TEXT_DESC}</span></dt>
+			<dd><input type="radio" class="radio" name="dsr_cke_force_paste_as_text" value="1" <!-- IF DSR_CKE_FORCE_PASTE_AS_TEXT -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp
+				<input type="radio" class="radio" name="dsr_cke_force_paste_as_text" value="0" <!-- IF not DSR_CKE_FORCE_PASTE_AS_TEXT -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label>{L_ACP_DSR_CKE_FORCE_SOURCE_ON_MOBILE_TEXT}</label><br />
+				<span>{L_ACP_DSR_CKE_FORCE_SOURCE_ON_MOBILE_DESC}</span></dt>
+			<dd><input type="radio" class="radio" name="dsr_cke_force_source_on_mobile" value="1" <!-- IF DSR_CKE_FORCE_SOURCE_ON_MOBILE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp
+				<input type="radio" class="radio" name="dsr_cke_force_source_on_mobile" value="0" <!-- IF not DSR_CKE_FORCE_SOURCE_ON_MOBILE -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+		<dl>
 			<dt><label for="dsr_cke_cache_time">{L_ACP_DSR_CKE_CACHE_TIME_TEXT}</label><br />
 				<span>{L_ACP_DSR_CKE_CACHE_TIME_DESC}</span></dt>
 			<dd><input type="number" name="dsr_cke_cache_time" id="dsr_cke_cache_time" size="10" maxlength="5" value="{DSR_CKE_CACHE_TIME}"></dd>

@@ -63,16 +63,15 @@ function dsrCkeditorGenSmileyConfig() {
 	}
 
 	var fontSize_sizes = dsrCkeditorGenFontsConfig(),
-		smiley_config  = dsrCkeditorGenSmileyConfig(),
 		config = {
 			toolbarGroups: ckeConfig.toolbarGroups,
 			removeButtons: ckeConfig.removeButtons,
-			removeDialogTabs: 'link:advanced',
+			removeDialogTabs: 'image:advanced;link:advanced',
 			title: false,
 			disableObjectResizing: true,
 			disableNativeSpellChecker: false,
-			extraPlugins: 'bbcode,custombbcode,youtube,mentions',
-			removePlugins: '',
+			extraPlugins: ['bbcode', 'custombbcode', 'youtube', 'mentions'],
+			removePlugins: [],
 			bbcode_bbcodeMap: {
 				b: 'strong', u: 'u', i: 'em', s: 's', sub: 'sub', sup: 'sup', color: 'span', size: 'span', left: 'div', right: 'div',
 				center: 'div', justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li',
@@ -88,13 +87,11 @@ function dsrCkeditorGenSmileyConfig() {
 			bbcode_attributesMap: {
 				url: 'href', email: 'mailhref', quote: 'cite', list: 'listType', code: 'data-cke-code-lang'
 			},
-			bbcode_smileyMap: smiley_config.relations,
+			bbcode_smileyMap: false,
 			customBBcode_codes: ckeConfig.defaultCustomBBcode,
 			fontSize_sizes: fontSize_sizes,
-			smiley_images: smiley_config.images,
-			smiley_descriptions: smiley_config.descriptions,
-			smiley_path: './',
-			//image_prefillDimensions: false,
+			image_previewText: ' ',
+			image_prefillDimensions: false,
 			on: {
 				setData: function(event) {
 					// TODO change this!
@@ -111,7 +108,7 @@ function dsrCkeditorGenSmileyConfig() {
 		};
 
 	if (ckeConfig.useAutoSave) {
-		config.extraPlugins = config.extraPlugins + ',autosave';
+		config.extraPlugins.push('autosave');
 		config.autosave = {
 			//Savekey : 'autosave_' + window.location + "_" + $('#' + editor.name).attr('name'),
 			NotOlderThen : 180,
@@ -120,21 +117,43 @@ function dsrCkeditorGenSmileyConfig() {
 			messageType: 'no',
 		};
 	} else {
-		config.removePlugins = 'autosave';
+		config.removePlugins.push('autosave');
+	}
+
+	if (ckeConfig.useEmojis) {
+		config.removePlugins.push('smiley');
+		config.extraPlugins.push('emoji');
+		config.emoji_minChars = 2;
+	} else {
+		config.removePlugins.push('emoji');
+		config.extraPlugins.push('smiley');
+
+		var smiley_config  = dsrCkeditorGenSmileyConfig();
+		config.bbcode_smileyMap = smiley_config.relations;
+		config.smiley_images = smiley_config.images;
+		config.smiley_descriptions = smiley_config.descriptions;
+		config.smiley_path = './';
+	}
+
+	if (ckeConfig.forcePasteAsText) {
+		config.forcePasteAsPlainText = true;
+	}
+
+	if (ckeConfig.forceSourceOnMobile && (CKEDITOR.env.mobile || CKEDITOR.env.iOS)) {
+		config.startupMode = 'source';
 	}
 
 	// phpbb-ext-highlighter
 	if (ckeConfig.codeSnippetTheme) {
-		config.extraPlugins = config.extraPlugins + ',codesnippet';
+		config.extraPlugins.push('codesnippet');
 		config.codeSnippet_theme = ckeConfig.codeSnippetTheme;
 		config.codeSnippet_languages = ckeConfig.codeSnippetLanguages;
 	}
 
 	// paul999 mentions
 	if (typeof U_AJAX_MENTION_URL !== 'undefined') {
-		config.mentions = [
-			{
-				feed: function(options, callback) {
+		config.mentions = [{
+			feed: function(options, callback) {
 					if (options.query.length < MIN_MENTION_LENGTH) {
 						callback([]);
 						return;
@@ -155,13 +174,12 @@ function dsrCkeditorGenSmileyConfig() {
 				// TODO hay que ver como hacer esto con soporte en el editor
 				//outputTemplate: '<a href="/tracker/{user_id}">@{value}</a>'
 				outputTemplate: '[smention u={user_id}]{value}[/smention]'
-			},
-		];
+		}];
 	}
 
 	// imgur
 	if (ckeConfig.imgurClientId) {
-		config.extraPlugins = config.extraPlugins + ',imgur';
+		config.extraPlugins.push('imgur');
 		config.imgurClientId = ckeConfig.imgurClientId;
 	}
 
@@ -172,7 +190,7 @@ function dsrCkeditorGenSmileyConfig() {
 	// disable auto loading of config.js and styles.js
 	CKEDITOR.config.customConfig = '';
 	CKEDITOR.config.stylesSet = false;
-	
+
 	// load editor
 	CKEDITOR.replace(is_message ? 'message' : 'signature', config);
 } )();
