@@ -1,0 +1,67 @@
+<script type="text/javascript">
+    /*
+    * for correct operation re-declarate some functions:
+    *   insert_text() from editor.js
+    *   phpbb.plupload.updateBbcode() from plupload.js
+    */
+
+    function insert_text(text, spaces, popup) {
+        if (spaces) {
+            text = ' ' + text + ' ';
+        }
+
+        // ckeditor code
+        var instances_names = Object.keys(CKEDITOR.instances),
+            editor = CKEDITOR.instances[instances_names[0]];
+        if (editor.mode === 'wysiwyg') {
+            editor.insertText(text);
+        } else {
+            var current_text = editor.getData();
+            editor.setData(current_text + text);
+
+            var raw_textarea = document.getElementsByClassName('cke_source');
+            if (raw_textarea) {
+                raw_textarea[0].focus();
+            }
+        }
+    }
+
+    phpbb.plupload.updateBbcode = function (action, index) {
+        var instances_names = Object.keys(CKEDITOR.instances),
+            editor = CKEDITOR.instances[instances_names[0]],
+            text = editor.getData(),
+            removal = (action === 'removal');
+
+        // Return if the bbcode isn't used at all.
+        if (text.indexOf('[attachment=') === -1) {
+            return;
+        }
+
+        function runUpdate(i) {
+            var regex = new RegExp('\\[attachment=' + i + '\\](.*?)\\[\\/attachment\\]', 'g');
+            text = text.replace(regex, function updateBbcode(_, fileName) {
+                // Remove the bbcode if the file was removed.
+                if (removal && index === i) {
+                    return '';
+                }
+                var newIndex = i + ((removal) ? -1 : 1);
+                return '[attachment=' + newIndex + ']' + fileName + '[/attachment]';
+            });
+        }
+
+        // Loop forwards when removing and backwards when adding ensures we don't
+        // corrupt the bbcode index.
+        var i;
+        if (removal) {
+            for (i = index; i < phpbb.plupload.ids.length; i++) {
+                runUpdate(i);
+            }
+        } else {
+            for (i = phpbb.plupload.ids.length - 1; i >= index; i--) {
+                runUpdate(i);
+            }
+        }
+
+        editor.setData(text);
+    };
+</script>

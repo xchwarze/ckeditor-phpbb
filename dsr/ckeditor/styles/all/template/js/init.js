@@ -1,30 +1,3 @@
-/**
- * Array.prototype.forEach() polyfill
- */
-if (!Array.prototype.forEach) {
-    Array.prototype.forEach = function (callback, thisArg) {
-        thisArg = thisArg || window;
-        for (var i = 0; i < this.length; i++) {
-            callback.call(thisArg, this[i], i, this);
-        }
-    };
-}
-
-/**
- * Object.entries() polyfill
- */
-if (!Object.entries) {
-    Object.entries = function (obj) {
-        var ownProps = Object.keys(obj),
-            i = ownProps.length,
-            resArray = new Array(i); // preallocate the Array
-        while (i--)
-            resArray[i] = [ownProps[i], obj[ownProps[i]]];
-
-        return resArray;
-    };
-}
-
 function dsrCkeditorGenFontsConfig() {
     var parsed = '',
         fonts = Object.entries(ckeConfig.defaultFontSizes);
@@ -194,4 +167,3 @@ function dsrCkeditorGenSmileyConfig() {
     // load editor
     CKEDITOR.replace(is_message ? 'message' : 'signature', config);
 })();
-
