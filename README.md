@@ -15,7 +15,8 @@
 * Clean code (no spaghetti code)
 
 ## How to install
-Just copy folder dsr/ to {PHPBB_ROOT}/ext/
+1. Just copy folder dsr/ to {PHPBB_ROOT}/ext/
+2. Go to Extensions -> CKEditor 4 -> Settings and configure
 
 ## Custom BBcode tags
 * Place custom buttons icons in ./images/editor/custom/
