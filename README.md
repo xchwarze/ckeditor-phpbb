@@ -8,6 +8,7 @@
 * Autosave
 * Youtube tag
 * Custom bbcode tags support
+* Emojis support
 * Imgur
 * Mentions
 * Code Snippet and syntax highlighter
