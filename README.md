@@ -32,7 +32,7 @@
 * Set "Imgur Client ID" in settings menu
 
 ## Mentions
-* Install https://github.com/paul999/mention from master
+* Install mentions from tis fork https://github.com/xchwarze/mention/tree/ckeditor
 
 ## Code Snippet and syntax highlighter
 * Install https://github.com/s9e/phpbb-ext-highlighter
