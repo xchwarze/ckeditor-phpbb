@@ -83,12 +83,6 @@ class main_listener implements EventSubscriberInterface
     {
         $lang = substr($this->user->lang['USER_LANG'], 0, 2);
 
-        // English is default and doesn't have to be loaded
-        if ('en' === $lang)
-        {
-            return false;
-        }
-
         return is_readable("{$this->ckeditor_path}/lang/{$lang}.js") ? $lang : false;
     }
 
