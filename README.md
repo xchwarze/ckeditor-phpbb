@@ -37,9 +37,10 @@
 ## Code Snippet and syntax highlighter
 * Install https://github.com/s9e/phpbb-ext-highlighter
 * Set "Theme used in the code snippet" and "Snippet code languages" in settings menu
-
+* Examples
+Theme used in the code snippet: `monokai_sublime`
+Snippet code languages:
 ```
-# Snippet code languages example:
 [
   { 'label': 'Arduino', 'lang': 'arduino' },
   { 'label': 'Autoit', 'lang': 'autoit' },
