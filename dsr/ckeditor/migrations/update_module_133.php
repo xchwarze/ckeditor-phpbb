@@ -18,14 +18,6 @@ class update_module_133 extends \phpbb\db\migration\migration
         ];
     }
 
-    public function revert_data()
-    {
-        return [
-            ['config.remove', [
-                'dsr_cke_use_emojis',
-                'dsr_cke_force_paste_as_text',
-                'dsr_cke_force_source_on_mobile',
-            ]],
-        ];
-    }
+    //phpBB can undo all your changes you do in this particular migration automatically
+    //public function revert_data()
 }

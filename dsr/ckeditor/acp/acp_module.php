@@ -36,7 +36,7 @@ class acp_module
         $this->page_title = 'ACP_DSR_CKE_TITLE';
         add_form_key('acp_ckeditor');
 
-        // tendria que haber una forma mas moderna de hacer la validacion del formulario
+        // there should be a more modern way to do the validation of the form
         if (!function_exists('validate_data')) {
             include("{$phpbb_root_path}includes/functions_user.{$phpEx}");
         }

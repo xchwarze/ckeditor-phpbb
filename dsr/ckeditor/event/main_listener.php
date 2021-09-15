@@ -22,7 +22,7 @@ class main_listener implements EventSubscriberInterface
     protected $config;
     /** @var \phpbb\config\db_text */
     protected $config_text;
-    /** @var \phpbb\cache\service */
+    /** @var \phpbb\cache\driver\driver_interface */
     protected $cache;
     /** @var \phpbb\db\driver\driver_interface */
     protected $db;
@@ -37,7 +37,7 @@ class main_listener implements EventSubscriberInterface
         \phpbb\template\template $template,
         \phpbb\config\config $config,
         \phpbb\config\db_text $config_text,
-        \phpbb\cache\service $cache,
+        \phpbb\cache\driver\driver_interface $cache,
         \phpbb\user $user,
         \phpbb\language\language $language,
         $root_path
@@ -125,9 +125,8 @@ class main_listener implements EventSubscriberInterface
 
     private function _initialize_editor($is_viewtopic)
     {
-        $cache = $this->cache->get_driver();
         $cache_key = $is_viewtopic ? '_dsr_ckeditor_editor_config_quick' : '_dsr_ckeditor_editor_config_normal';
-        if (($editor_config = $cache->get($cache_key)) === false) {
+        if (($editor_config = $this->cache->get($cache_key)) === false) {
             $toolbar_groups_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_toolbar_groups' : 'dsr_cke_normal_editor_toolbar_groups';
             $remove_buttons_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_remove_buttons' : 'dsr_cke_normal_editor_remove_buttons';
 
@@ -144,7 +143,7 @@ class main_listener implements EventSubscriberInterface
                 'codeSnippetLanguages'  => $this->_get_config_text('dsr_cke_code_snippet_languages', true),
             ], JSON_HEX_QUOT | JSON_HEX_APOS);
 
-            $cache->put($cache_key, $editor_config, $this->config['dsr_cke_cache_time']);
+            $this->cache->put($cache_key, $editor_config, $this->config['dsr_cke_cache_time']);
         }
 
         $this->template->assign_vars([
@@ -159,10 +158,9 @@ class main_listener implements EventSubscriberInterface
     }
 
     public function initialize_quick_reply_editor() {
-        //$is_viewtopic = $this->user->page['page_name'] === 'viewtopic.php';
-
         // check if user is login first!
-        if ( empty($this->user->data['user_id']) || $this->user->data['user_id'] == ANONYMOUS) {
+        // TODO: Add guest postings support
+        if ( empty($this->user->data['user_id']) || $this->user->data['user_id'] == ANONYMOUS ) {
             return;
         }
 

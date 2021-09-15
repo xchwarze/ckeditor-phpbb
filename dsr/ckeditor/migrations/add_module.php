@@ -61,38 +61,6 @@ class add_module extends \phpbb\db\migration\migration
         ];
     }
 
-    public function revert_data()
-    {
-        return [
-            ['config.remove', [
-                'dsr_cke_status',
-                'dsr_cke_cache_time',
-                'dsr_cke_use_auto_save',
-                'dsr_cke_imgur_client_id',
-                'dsr_cke_code_snippet_theme',
-            ]],
-
-            ['config_text.remove', [
-                'dsr_cke_normal_editor_toolbar_groups',
-                'dsr_cke_normal_editor_remove_buttons',
-                'dsr_cke_quick_editor_toolbar_groups',
-                'dsr_cke_quick_editor_remove_buttons',
-                'dsr_cke_code_snippet_languages',
-            ]],
-
-            ['module.remove', [
-                'acp',
-                'ACP_DSR_CKE_TITLE',
-                [
-                    'module_basename' => '\dsr\ckeditor\acp\acp_module',
-                    'modes' => ['settings'],
-                ]
-            ]],
-            ['module.remove', [
-                'acp',
-                'ACP_CAT_DOT_MODS',
-                'ACP_DSR_CKE_TITLE'
-            ]],
-        ];
-    }
+    //phpBB can undo all your changes you do in this particular migration automatically
+    //public function revert_data()
 }

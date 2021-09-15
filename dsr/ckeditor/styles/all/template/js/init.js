@@ -66,11 +66,12 @@ function dsrCkeditorGenSmileyConfig() {
             image_previewText: ' ',
             image_prefillDimensions: false,
             on: {
+                // fix bbcode in editor
                 setData: function (event) {
-                    // TODO change this!
-                    // fix bbcode in editor
-                    var url = document.URL;
-                    if (url.indexOf('posting.php?mode=quote') || 0 <= url.indexOf('ucp.php?i=pm') || 0 <= url.indexOf('#preview')) {
+                    // 'posting.php?mode=quote', 'ucp.php?i=pm', '#preview'
+                    var url_regex = /\?mode=quote|\?i=pm|#preview/gi;
+                    if (url_regex.test(document.URL)) {
+                        // TODO change this!
                         var bbcode = event.data.dataValue;
                         bbcode = bbcode.replace(/([\s\S]*)\/quote]/, "$1\/quote][justify][/justify]");
 

@@ -261,20 +261,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<div style="direction: rtl;">${1}</div>'
             ],
             // row #18 (deprecated! dont work in phpbb 3.2.7]
-            /*
-            [ // row #18
-                'bbcode_id' => ++$style_ids,
-                'bbcode_tag' => 'img=',
-                'bbcode_helpline' => '',
-                'display_on_posting' => 0,
-                'bbcode_match' => '[img={NUMBER1}x{NUMBER2}]{URL}[/img]',
-                'bbcode_tpl' => '<img src="{URL}" style="width: {NUMBER1}px;height: {NUMBER2}px;" />',
-                'first_pass_match' => '!\[img\=([0-9]+]x([0-9]+]\](.*?][/img\]!iue',
-                'first_pass_replace' => '[img=${1}x${2}:$uid]${3}[/img:$uid]',
-                'second_pass_match' => '!\[img\=([0-9]+]x([0-9]+]:$uid\](.*?][/img:$uid\]!su',
-                'second_pass_replace' => '<img src="${3}" style="width: ${1}px;height: ${2}px;" />'
-            ],
-            */
             [ // row #19
                 'bbcode_id' => ++$style_ids,
                 'bbcode_tag' => 'ltr',
