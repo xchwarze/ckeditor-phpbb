@@ -1,6 +1,7 @@
 function dsrCkeditorGenFontsConfig() {
     var parsed = '',
         fonts = Object.entries(ckeConfig.defaultFontSizes);
+
     fonts.forEach(function (element) {
         if (parseInt(element[1]) <= parseInt(ckeConfig.maxFontSize)) {
             parsed += element[0] + '/' + element[1] + '%;';
@@ -17,6 +18,7 @@ function dsrCkeditorGenSmileyConfig() {
             relations: {},
         },
         smileys = Object.entries(ckeConfig.defaultEmoticonsBBcode);
+
     smileys.forEach(function (element) {
         parsed.images.push(element[1]['src'].slice(2));
         parsed.descriptions.push(element[0]);
@@ -37,12 +39,16 @@ function dsrCkeditorGenSmileyConfig() {
 
     var fontSize_sizes = dsrCkeditorGenFontsConfig(),
         config = {
-            toolbarGroups: ckeConfig.toolbarGroups,
-            removeButtons: ckeConfig.removeButtons,
-            removeDialogTabs: 'image:advanced;link:advanced',
+            height: ckeConfig.editorHeight,
+            resize_minWidth: 300,
             title: false,
             disableObjectResizing: true,
             disableNativeSpellChecker: false,
+            customConfig: '',
+            stylesSet: false,
+            toolbarGroups: ckeConfig.toolbarGroups,
+            removeButtons: ckeConfig.removeButtons,
+            removeDialogTabs: 'image:advanced;link:advanced',
             extraPlugins: ['bbcode', 'custombbcode', 'youtube', 'mentions'],
             removePlugins: [],
             bbcode_bbcodeMap: {
@@ -84,7 +90,8 @@ function dsrCkeditorGenSmileyConfig() {
     if (ckeConfig.useAutoSave) {
         config.extraPlugins.push('autosave');
         config.autosave = {
-            //Savekey : 'autosave_' + window.location + "_" + $('#' + editor.name).attr('name'),
+            //Savekey: 'autosave_' + window.location.pathname + '_' + window.location.search,
+            //autoLoad: false,
             NotOlderThen: 180,
             saveDetectionSelectors: 'input[name*="post"],input[name*="save"],input[name*="preview"]',
             saveOnDestroy: false,
@@ -145,7 +152,6 @@ function dsrCkeditorGenSmileyConfig() {
             minChars: MIN_MENTION_LENGTH,
             throttle: 500,
             itemTemplate: '<li data-id="{user_id}">{value}</li>',
-            // TODO hay que ver como hacer esto con soporte en el editor
             //outputTemplate: '<a href="/tracker/{user_id}">@{value}</a>'
             outputTemplate: '[smention u={user_id}]{value}[/smention]'
         }];
@@ -157,13 +163,14 @@ function dsrCkeditorGenSmileyConfig() {
         config.imgurClientId = ckeConfig.imgurClientId;
     }
 
+    // Editor Resizing
+    if (ckeConfig.isQuickEditor) {
+        config.resize_enabled = false;
+    }
+
     if (ckeConfig.lang) {
         config.language = ckeConfig.lang;
     }
-
-    // disable auto loading of config.js and styles.js
-    CKEDITOR.config.customConfig = '';
-    CKEDITOR.config.stylesSet = false;
 
     // load editor
     CKEDITOR.replace(is_message ? 'message' : 'signature', config);

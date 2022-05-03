@@ -3,6 +3,11 @@
         display: none;
     }
 
+    .cke_bottom {
+        border-top: unset;
+        background: unset;
+    }
+
     {% if custom_tags %}
         {% for tag in custom_tags %}
             .cke_button__{{ tag.BBCODE_TAG }}_icon {
@@ -33,7 +38,10 @@
     ckeConfig.defaultEmoticonsBBcode = {
         {% if smiley %}
             {% for smile in smiley %}
-                "{{ smile.A_SMILEY_CODE|escape('js') }}": { title: "{{ smile.SMILEY_DESC|escape('js') }}", src: "{{ smile.SMILEY_IMG|escape('js') }}"  }{% if !smile.S_LAST_ROW %}, {% endif %}
+                "{{ smile.A_SMILEY_CODE|escape('js') }}": {
+                    "title": "{{ smile.SMILEY_DESC|escape('js') }}",
+                    "src":   "{{ smile.SMILEY_IMG|escape('js') }}"
+                }{% if !smile.S_LAST_ROW %}, {% endif %}
             {% endfor %}
         {% endif %}
     };

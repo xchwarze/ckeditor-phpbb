@@ -3,9 +3,9 @@
   "type": "phpbb-extension",
   "description": "CKEditor 4",
   "homepage": "https://github.com/xchwarze/ckeditor-phpbb",
-  "version": "1.4.1",
-  "time": "2021-09-14",
-  "license": "GPL-2.0-only",
+  "version": "1.5.0",
+  "time": "2022-05-03",
+  "license": "GPL-2.0",
   "authors": [
     {
       "name": "DSR!",

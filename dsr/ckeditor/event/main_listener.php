@@ -1,12 +1,13 @@
 <?php
-/**
- * @author      DSR!
- * @since       23.03.20
- * @version     1.0.0
- */
 
 namespace dsr\ckeditor\event;
 
+use phpbb\config\config;
+use phpbb\config\db_text;
+use phpbb\db\driver\driver_interface;
+use phpbb\language\language;
+use phpbb\template\template;
+use phpbb\user;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -14,39 +15,34 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class main_listener implements EventSubscriberInterface
 {
-    /** @var \phpbb\template\template */
+    /** @var template */
     protected $template;
-    /** @var \phpbb\user */
+    /** @var user */
     protected $user;
-    /** @var \phpbb\config\config */
+    /** @var config */
     protected $config;
-    /** @var \phpbb\config\db_text */
+    /** @var db_text */
     protected $config_text;
-    /** @var \phpbb\cache\driver\driver_interface */
-    protected $cache;
-    /** @var \phpbb\db\driver\driver_interface */
+    /** @var driver_interface */
     protected $db;
-    /** @var \phpbb\language\language */
+    /** @var language */
     protected $language;
-
     protected $root_path;
     protected $ckeditor_path;
 
     public function __construct(
-        \phpbb\db\driver\driver_interface $db,
-        \phpbb\template\template $template,
-        \phpbb\config\config $config,
-        \phpbb\config\db_text $config_text,
-        \phpbb\cache\driver\driver_interface $cache,
-        \phpbb\user $user,
-        \phpbb\language\language $language,
+        driver_interface $db,
+        template $template,
+        config $config,
+        db_text $config_text,
+        user $user,
+        language $language,
         $root_path
     ) {
         $this->template         = $template;
         $this->user             = $user;
         $this->config           = $config;
         $this->config_text      = $config_text;
-        $this->cache            = $cache;
         $this->db               = $db;
         $this->language         = $language;
         $this->root_path        = $root_path;
@@ -119,31 +115,29 @@ class main_listener implements EventSubscriberInterface
 
     private function _initialize_editor($is_viewtopic)
     {
-        $cache_key = $is_viewtopic ? '_dsr_ckeditor_editor_config_quick' : '_dsr_ckeditor_editor_config_normal';
-        if (($editor_config = $this->cache->get($cache_key)) === false) {
-            $toolbar_groups_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_toolbar_groups' : 'dsr_cke_normal_editor_toolbar_groups';
-            $remove_buttons_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_remove_buttons' : 'dsr_cke_normal_editor_remove_buttons';
+        $toolbar_groups_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_toolbar_groups' : 'dsr_cke_normal_editor_toolbar_groups';
+        $remove_buttons_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_remove_buttons' : 'dsr_cke_normal_editor_remove_buttons';
+        $editor_height_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_height' : 'dsr_cke_normal_editor_height';
 
-            $editor_config = json_encode([
-                'maxFontSize'           => $this->config['max_post_font_size'],
-                'useAutoSave'           => (bool)$this->config['dsr_cke_use_auto_save'],
-                'useEmojis'             => (bool)$this->config['dsr_cke_use_emojis'],
-                'forcePasteAsText'      => (bool)$this->config['dsr_cke_force_paste_as_text'],
-                'forceSourceOnMobile'   => (bool)$this->config['dsr_cke_force_source_on_mobile'],
-                'toolbarGroups'         => $this->_get_config_text($toolbar_groups_config_name, true),
-                'removeButtons'         => $this->_get_config_text($remove_buttons_config_name, false),
-                'imgurClientId'         => $this->config['dsr_cke_imgur_client_id'],
-                'codeSnippetTheme'      => $this->config['dsr_cke_code_snippet_theme'],
-                'codeSnippetLanguages'  => $this->_get_config_text('dsr_cke_code_snippet_languages', true),
-            ], JSON_HEX_QUOT | JSON_HEX_APOS);
-
-            $this->cache->put($cache_key, $editor_config, $this->config['dsr_cke_cache_time']);
-        }
+        $editor_config = json_encode([
+            'isQuickEditor'         => $is_viewtopic,
+            'maxFontSize'           => $this->config['max_post_font_size'],
+            'useAutoSave'           => (bool)$this->config['dsr_cke_use_auto_save'],
+            'useEmojis'             => (bool)$this->config['dsr_cke_use_emojis'],
+            'forcePasteAsText'      => (bool)$this->config['dsr_cke_force_paste_as_text'],
+            'forceSourceOnMobile'   => (bool)$this->config['dsr_cke_force_source_on_mobile'],
+            'toolbarGroups'         => $this->_get_config_text($toolbar_groups_config_name, true),
+            'removeButtons'         => $this->_get_config_text($remove_buttons_config_name, false),
+            'editorHeight'          => $this->config[$editor_height_config_name],
+            'imgurClientId'         => $this->config['dsr_cke_imgur_client_id'],
+            'codeSnippetTheme'      => $this->config['dsr_cke_code_snippet_theme'],
+            'codeSnippetLanguages'  => $this->_get_config_text('dsr_cke_code_snippet_languages', true),
+        ], JSON_HEX_QUOT | JSON_HEX_APOS);
 
         $this->template->assign_vars([
-            'CKE_STATUS' => (bool)$this->config['dsr_cke_status'],
-            'CKE_LANG'   => $this->_get_lang(),
-            'CKE_CONFIG' => $editor_config,
+            'CKE_STATUS'            => (bool)$this->config['dsr_cke_status'],
+            'CKE_LANG'              => $this->_get_lang(),
+            'CKE_CONFIG'            => $editor_config,
         ]);
     }
 

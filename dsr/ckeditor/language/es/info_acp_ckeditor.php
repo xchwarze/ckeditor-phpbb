@@ -29,8 +29,6 @@ $lang = array_merge($lang, [
     'ACP_DSR_CKE_FORCE_PASTE_AS_TEXT_DESC'      =>  'Si tus usuarios suelen copiar y pegar mucho en sus posteos esta es la mejor solución a los problemas de estilos',
     'ACP_DSR_CKE_FORCE_SOURCE_ON_MOBILE_TEXT'   =>  'Usar editor en modo fuente en mobile',
     'ACP_DSR_CKE_FORCE_SOURCE_ON_MOBILE_DESC'   =>  'Seleccionando esto se cargara con la vista de fuente ya seleccionada',
-    'ACP_DSR_CKE_CACHE_TIME_TEXT'               =>  'Tiempo de cache',
-    'ACP_DSR_CKE_CACHE_TIME_DESC'               =>  'Todas las querys que realice esta extensión serán cacheadas por estos segundos.<br> Para debug puedes ponerlo en 0 y su valor máximo es 86400',
 
     'ACP_DSR_CKE_TOOLBAR'                       =>  'Ajustes de toolbars',
     'ACP_DSR_CKE_NORMAL_TOOLBAR_GROUPS_TEXT'    =>  'Grupos de herramientas',
@@ -41,6 +39,10 @@ $lang = array_merge($lang, [
     'ACP_DSR_CKE_NORMAL_REMOVE_BUTTONS_DESC'    =>  'De esta forma puedes excluir herramientas que son usadas en un grupo',
     'ACP_DSR_CKE_QUICK_REMOVE_BUTTONS_TEXT'     =>  'Remover botones de grupo en respuesta rápida',
     'ACP_DSR_CKE_QUICK_REMOVE_BUTTONS_DESC'     =>  'En el "Toolbar Configurator" las encontraras como el arreglo que sigue a config.removeButtons',
+    'ACP_DSR_CKE_NORMAL_EDITOR_HEIGHT_TEXT'     =>  'Alto de editor',
+    'ACP_DSR_CKE_NORMAL_EDITOR_HEIGHT_DESC'     =>  'El alto admite todas las unidades usadas en css para esto',
+    'ACP_DSR_CKE_QUICK_EDITOR_HEIGHT_TEXT'      =>  'Alto de editor en respuesta rápida',
+    'ACP_DSR_CKE_QUICK_EDITOR_HEIGHT_DESC'      =>  'El alto admite todas las unidades usadas en css para esto',
     'ACP_DSR_CKE_TOOLBAR_HINT_TEXT'             =>  'Ayuda!',
     'ACP_DSR_CKE_TOOLBAR_HINT_DESC'             =>  'Para configurar fácilmente esto puedes usar el <a href="https://ckeditor.com/latest/samples/toolbarconfigurator/index.html#basic" target="_blank">Toolbar Configurator desde aquí</a>',
 

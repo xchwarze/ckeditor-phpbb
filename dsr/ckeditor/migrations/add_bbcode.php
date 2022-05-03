@@ -16,21 +16,6 @@ class add_bbcode extends \phpbb\db\migration\migration
         ];
     }
 
-    public function revert_data()
-    {
-        return [
-            ['custom', [[$this, 'removebbcode']]],
-        ];
-    }
-
-    public function removebbcode()
-    {
-        $bbcodedata = ['li', 'ul', 's', 'sub', 'sup', 'left', 'right', 'center', 'justify', 'font=', 'ol', 'table', 'td', 'tr', 'hr', 'youtube', 'rtl', 'img', 'ltr',];
-
-        $sql = 'DELETE FROM ' . $this->table_prefix . 'bbcodes WHERE ' . $this->db->sql_in_set('bbcode_tag', $bbcodedata);
-        $this->db->sql_query($sql);
-    }
-
     public function addbbcode()
     {
         $bbcodedata = ['li', 'ul', 's', 'sub', 'sup', 'left', 'right', 'center', 'justify', 'font=', 'ol', 'table', 'td', 'tr', 'hr', 'youtube', 'rtl', 'img', 'ltr',];

@@ -29,8 +29,6 @@ $lang = array_merge($lang, [
     'ACP_DSR_CKE_FORCE_PASTE_AS_TEXT_DESC'      =>  'If your users tend to copy and paste a lot in their posts this is the best solution to style problems',
     'ACP_DSR_CKE_FORCE_SOURCE_ON_MOBILE_TEXT'   =>  'Use editor in source mode on mobile',
     'ACP_DSR_CKE_FORCE_SOURCE_ON_MOBILE_DESC'   =>  'Selecting this will load with the source view selected',
-    'ACP_DSR_CKE_CACHE_TIME_TEXT'               =>  'Cache time',
-    'ACP_DSR_CKE_CACHE_TIME_DESC'               =>  'All the queries made by this extension will be cached for these seconds.<br> For debugging you can set it to 0 and its maximum value is 86400',
 
     'ACP_DSR_CKE_TOOLBAR'                       =>  'Toolbar settings',
     'ACP_DSR_CKE_NORMAL_TOOLBAR_GROUPS_TEXT'    =>  'Toolbar groups',
@@ -41,6 +39,10 @@ $lang = array_merge($lang, [
     'ACP_DSR_CKE_NORMAL_REMOVE_BUTTONS_DESC'    =>  'This way you can exclude tools that are used in a group',
     'ACP_DSR_CKE_QUICK_REMOVE_BUTTONS_TEXT'     =>  'Remove buttons in Quick Reply',
     'ACP_DSR_CKE_QUICK_REMOVE_BUTTONS_DESC'     =>  'In the "Toolbar Configurator" you will find them as the fix that follows config.removeButtons',
+    'ACP_DSR_CKE_NORMAL_EDITOR_HEIGHT_TEXT'     =>  'Editor Height',
+    'ACP_DSR_CKE_NORMAL_EDITOR_HEIGHT_DESC'     =>  'Height supports all units used in css for this',
+    'ACP_DSR_CKE_QUICK_EDITOR_HEIGHT_TEXT'      =>  'Height of the editor in quick response',
+    'ACP_DSR_CKE_QUICK_EDITOR_HEIGHT_DESC'      =>  'Height supports all units used in css for this',
     'ACP_DSR_CKE_TOOLBAR_HINT_TEXT'             =>  'Help!',
     'ACP_DSR_CKE_TOOLBAR_HINT_DESC'             =>  'To easily configure this you can use the <a href="https://ckeditor.com/latest/samples/toolbarconfigurator/index.html#basic" target="_blank">Toolbar Configurator from here</a> ',
 

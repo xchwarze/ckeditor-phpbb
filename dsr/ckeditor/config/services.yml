@@ -6,7 +6,6 @@ services:
             - '@template'
             - '@config'
             - '@config_text'
-            - '@cache.driver'
             - '@user'
             - '@language'
             - '%core.root_path%'
