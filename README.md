@@ -1,4 +1,4 @@
-# CKEDITOR for phpBB [![Build Status](https://travis-ci.org/xchwarze/ckeditor-phpbb.svg?branch=master)](https://travis-ci.org/xchwarze/ckeditor-phpbb)
+# CKEDITOR for phpBB ![Tests](https://github.com/xchwarze/ckeditor-phpbb/workflows/Tests/badge.svg?branch=master)
 
 ### Editable textarea
 ![Example of editor](docs/example.png)
