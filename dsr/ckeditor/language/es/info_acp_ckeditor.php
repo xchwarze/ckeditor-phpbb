@@ -16,7 +16,8 @@ $lang = array_merge($lang, [
     'ACP_DSR_CKE_SETTING'       =>  'Ajustes',
     'ACP_DSR_CKE_EXPLAIN'       =>  'Mejora los editores de texto que usa el usuario por el poderoso CKEditor',
     'ACP_DSR_CKE_SAVED'         =>  'Cambios guardados.',
-    'ACP_DSR_CKE_JSON_ERROR'    =>  'El arreglo JSON ingresado no es válido.',
+    'ACP_DSR_CKE_JSON_ERROR'    =>  'El arreglo ingresado no es válido.',
+    'ACP_DSR_CKE_CONFIG_SAVED'  =>  '<strong>Ajustes de CKEditor 4 cambiados.</strong>',
 
     // ACP TEXTS
     'ACP_DSR_CKE_STATUS'                        =>  'Ajustes generales',
@@ -53,6 +54,6 @@ $lang = array_merge($lang, [
     'ACP_DSR_CKE_CODE_SNIPPET_THEME_DESC'       =>  'Recuerda instalar antes <a href="https://github.com/s9e/phpbb-ext-highlighter" target="_blank">este code snippet</a>',
     'ACP_DSR_CKE_CODE_SNIPPET_LANGUAGES_TEXT'   =>  'Lenguajes del code snippet',
     'ACP_DSR_CKE_CODE_SNIPPET_LANGUAGES_DESC'   =>  'Puedes ver cómo se configura esto en la <a href="https://github.com/xchwarze/ckeditor-phpbb" target="_blank">documentación de la extensión</a>',
-    'ACP_DSR_CKE_EXTENSIONS_HINT_TEXT'          =>  'Ayuda!',
+    'ACP_DSR_CKE_EXTENSIONS_HINT_TEXT'          =>  'Importante!',
     'ACP_DSR_CKE_EXTENSIONS_HINT_DESC'          =>  'Si usas BBcode custom debes:<br> 1. Colocar los iconos a usar en esta ruta: ./images/editor/custom/<br> 2. El formato que se usa en los nombres es: {bbcode}.png (16x16) {bbcode}.hidpi.png (32x32)',
 ]);

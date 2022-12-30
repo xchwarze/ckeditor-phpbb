@@ -7,6 +7,7 @@ use phpbb\language\language;
 use phpbb\request\request;
 use phpbb\template\template;
 use phpbb\user;
+use phpbb\log\log;
 
 class acp_module
 {
@@ -35,6 +36,9 @@ class acp_module
 
         /** @var language */
         $language = $phpbb_container->get('language');
+
+        /** @var log */
+        $log = $phpbb_container->get('log');
 
         $user->add_lang('acp/common');
         $user->add_lang_ext('dsr/ckeditor', 'info_acp_ckeditor');
@@ -106,6 +110,7 @@ class acp_module
                 $config->set('dsr_cke_code_snippet_theme', $submit_data['dsr_cke_code_snippet_theme']);
                 $config_text->set('dsr_cke_code_snippet_languages', $submit_data['dsr_cke_code_snippet_languages']);
 
+                $log->add('admin', $user->data['user_id'], $user->ip, 'ACP_DSR_CKE_CONFIG_SAVED');
                 trigger_error($user->lang['ACP_DSR_CKE_SAVED'] . adm_back_link($this->u_action));
             }
         }
@@ -146,10 +151,10 @@ class acp_module
                 continue;
             }
 
-            // fix invalid json quotes
-            $data = str_replace("'", '"', $submit_data[$validate_json_item_name]);
-
             // check invalid value
+            // this is a hack to validate ckeditor config arrangement!
+            // this was the fastest and simplest way to validate it that I found
+            $data = str_replace("'", '"', $submit_data[$validate_json_item_name]);
             if (empty(json_decode($data))) {
                 $error[] = 'ACP_DSR_CKE_JSON_ERROR';
             }

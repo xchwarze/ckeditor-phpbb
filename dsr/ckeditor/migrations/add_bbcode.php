@@ -23,26 +23,25 @@ class add_bbcode extends \phpbb\db\migration\migration
         $sql = 'DELETE FROM ' . $this->table_prefix . 'bbcodes WHERE ' . $this->db->sql_in_set('bbcode_tag', $bbcodedata);
         $this->db->sql_query($sql);
 
-        $sql = 'SELECT MAX(bbcode_id) AS max_id
-                    FROM ' . $this->table_prefix . 'bbcodes';
+        $sql = 'SELECT MAX(bbcode_id) AS max_id FROM ' . $this->table_prefix . 'bbcodes';
         $result = $this->db->sql_query($sql);
 
-        $style_ids = 0;
+        $bbcode_ids = 0;
         if ($styles_row = $this->db->sql_fetchrow())
         {
-            $style_ids = $styles_row['max_id'];
+            $bbcode_ids = $styles_row['max_id'];
         }
         $this->db->sql_freeresult($result);
 
         // Make sure we don't start too low
-        if ($style_ids <= NUM_CORE_BBCODES)
+        if ($bbcode_ids <= NUM_CORE_BBCODES)
         {
-            $style_ids = NUM_CORE_BBCODES;
+            $bbcode_ids = NUM_CORE_BBCODES;
         }
 
         $custom_bbcodes = [
-            [ // row #1
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'li',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -53,8 +52,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[li:$uid\\](.*?]\\[/li:$uid\\]!s',
                 'second_pass_replace' => '<li>${1}</li>'
             ],
-            [ // row #2
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'ul',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -65,8 +64,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[ul:$uid\\](.*?]\\[/ul:$uid\\]!s',
                 'second_pass_replace' => '<ul>${1}</ul>'
             ],
-            [ // row #3
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 's',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -77,8 +76,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[s:$uid\\](.*?]\\[/s:$uid\\]!s',
                 'second_pass_replace' => '<span style="text-decoration: line-through;">${1}</span>'
             ],
-            [ // row #4
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'sub',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -89,8 +88,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[sub:$uid\\](.*?]\\[/sub:$uid\\]!s',
                 'second_pass_replace' => '<style>sub {vertical-align: sub; font-size: smaller;}</style><sub>${1}</sub>'
             ],
-            [ // row #5
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'sup',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -101,8 +100,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[sup:$uid\\](.*?]\\[/sup:$uid\\]!s',
                 'second_pass_replace' => '<style>sup {vertical-align: super; font-size: smaller;}</style><sup>${1}</sup>'
             ],
-            [ // row #6
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'left',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -113,8 +112,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[left:$uid\\](.*?]\\[/left:$uid\\]!s',
                 'second_pass_replace' => '<div align="left">${1}</div>'
             ],
-            [ // row #7
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'right',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -125,8 +124,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[right:$uid\\](.*?]\\[/right:$uid\\]!s',
                 'second_pass_replace' => '<div align="right">${1}</div>'
             ],
-            [ // row #8
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'center',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -137,8 +136,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[center:$uid\\](.*?]\\[/center:$uid\\]!s',
                 'second_pass_replace' => '<div align="center">${1}</div>'
             ],
-            [ // row #9
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'justify',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -149,8 +148,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[justify:$uid\\](.*?]\\[/justify:$uid\\]!s',
                 'second_pass_replace' => '<div align="justify">${1}</div>'
             ],
-            [ // row #10
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'font=',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -161,8 +160,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[font\\=([a-zA-Z0-9-+.,_ ]+]:$uid\\](.*?]\\[/font:$uid\\]!s',
                 'second_pass_replace' => '<span style="font-family: ${1};">${2}</span>'
             ],
-            [ // row #11
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'ol',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -173,8 +172,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[ol:$uid\\](.*?]\\[/ol:$uid\\]!s',
                 'second_pass_replace' => '<ol>${1}</ol>'
             ],
-            [ // row #12
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'table',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -185,8 +184,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[table:$uid\\](.*?]\\[/table:$uid\\]!s',
                 'second_pass_replace' => '<table>${1}</table>'
             ],
-            [ // row #13
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'td',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -197,8 +196,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[td:$uid\\](.*?]\\[/td:$uid\\]!s',
                 'second_pass_replace' => '<td>${1}</td>'
             ],
-            [ // row #14
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'tr',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -209,8 +208,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[tr:$uid\\](.*?]\\[/tr:$uid\\]!s',
                 'second_pass_replace' => '<tr>${1}</tr>'
             ],
-            [ // row #15
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'hr',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -221,8 +220,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[hr:$uid\\]!s',
                 'second_pass_replace' => '<hr />'
             ],
-            [ // row #16
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'youtube',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -233,8 +232,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[youtube:$uid\\]([a-zA-Z0-9-+.,_ ]+]\\[/youtube:$uid\\]!s',
                 'second_pass_replace' => '<iframe width="560" height="315" src="https://www.youtube.com/embed/${1}?wmode=opaque" data-youtube-id="${1}" frameborder="0" allowfullscreen></iframe>'
             ],
-            [ // row #17
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'rtl',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -245,9 +244,8 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_match' => '!\\[rtl:$uid\\](.*?]\\[/rtl:$uid\\]!s',
                 'second_pass_replace' => '<div style="direction: rtl;">${1}</div>'
             ],
-            // row #18 (deprecated! dont work in phpbb 3.2.7]
-            [ // row #19
-                'bbcode_id' => ++$style_ids,
+            [
+                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'ltr',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,

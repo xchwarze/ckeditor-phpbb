@@ -52,37 +52,34 @@ class main_listener implements EventSubscriberInterface
     static public function getSubscribedEvents()
     {
         return array(
-            'core.display_custom_bbcodes'           => 'initialize_editor',
+            'core.display_custom_bbcodes'           => 'initialize_full_editor',
             'core.viewtopic_modify_page_title'      => 'initialize_quick_reply_editor',
-            //'core.generate_smilies_after'         => 'initialize_editor',
-            //'core.modify_posting_auth'            => 'initialize_editor',
+            //'core.generate_smilies_after'         => 'initialize_full_editor',
+            //'core.modify_posting_auth'            => 'initialize_full_editor',
         );
     }
 
-    private function _get_config_text($key, $isJson)
+    private function get_config_text($key, $isJson)
     {
         $config = $this->config_text->get($key);
-        if (!$isJson) {
-            return $config;
+        if ($isJson) {
+            // fix invalid json quotes
+            $config = str_replace("'", '"', $config);
+
+            return json_decode($config);
         }
 
-        // delete extra chars
-        //$config = str_replace(["\r\n", "\n", "\r", " "], '', $config);
-
-        // fix invalid json quotes
-        $config = str_replace("'", '"', $config);
-
-        return json_decode($config);
+        return $config;
     }
 
-    private function _get_lang()
+    private function get_lang()
     {
         $lang = substr($this->user->lang['USER_LANG'], 0, 2);
 
         return is_readable("{$this->ckeditor_path}/lang/{$lang}.js") ? $lang : false;
     }
 
-    private function _fix_smileys()
+    private function fix_smileys()
     {
         // this is based on generate_smilies();
         //$root_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? generate_board_url() . '/' : $phpbb_path_helper->get_web_root_path();
@@ -107,13 +104,7 @@ class main_listener implements EventSubscriberInterface
         $this->db->sql_freeresult($result);
     }
 
-    private function _fix_languages()
-    {
-        // add missing texts
-        $this->language->add_lang('posting');
-    }
-
-    private function _initialize_editor($is_viewtopic)
+    private function editor_setup($is_viewtopic)
     {
         $toolbar_groups_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_toolbar_groups' : 'dsr_cke_normal_editor_toolbar_groups';
         $remove_buttons_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_remove_buttons' : 'dsr_cke_normal_editor_remove_buttons';
@@ -126,23 +117,23 @@ class main_listener implements EventSubscriberInterface
             'useEmojis'             => (bool)$this->config['dsr_cke_use_emojis'],
             'forcePasteAsText'      => (bool)$this->config['dsr_cke_force_paste_as_text'],
             'forceSourceOnMobile'   => (bool)$this->config['dsr_cke_force_source_on_mobile'],
-            'toolbarGroups'         => $this->_get_config_text($toolbar_groups_config_name, true),
-            'removeButtons'         => $this->_get_config_text($remove_buttons_config_name, false),
+            'toolbarGroups'         => $this->get_config_text($toolbar_groups_config_name, true),
+            'removeButtons'         => $this->get_config_text($remove_buttons_config_name, false),
             'editorHeight'          => $this->config[$editor_height_config_name],
             'imgurClientId'         => $this->config['dsr_cke_imgur_client_id'],
             'codeSnippetTheme'      => $this->config['dsr_cke_code_snippet_theme'],
-            'codeSnippetLanguages'  => $this->_get_config_text('dsr_cke_code_snippet_languages', true),
+            'codeSnippetLanguages'  => $this->get_config_text('dsr_cke_code_snippet_languages', true),
         ], JSON_HEX_QUOT | JSON_HEX_APOS);
 
         $this->template->assign_vars([
             'CKE_STATUS'            => (bool)$this->config['dsr_cke_status'],
-            'CKE_LANG'              => $this->_get_lang(),
+            'CKE_LANG'              => $this->get_lang(),
             'CKE_CONFIG'            => $editor_config,
         ]);
     }
 
-    public function initialize_editor() {
-        $this->_initialize_editor(false);
+    public function initialize_full_editor() {
+        $this->editor_setup(false);
     }
 
     public function initialize_quick_reply_editor() {
@@ -152,11 +143,14 @@ class main_listener implements EventSubscriberInterface
             return;
         }
 
+        // add missing smileys data
         if (!(bool)$this->config['dsr_cke_use_emojis']) {
-            $this->_fix_smileys();
+            $this->fix_smileys();
         }
 
-        $this->_fix_languages();
-        $this->_initialize_editor(true);
+        // add missing texts
+        $this->language->add_lang('posting');
+
+        $this->editor_setup(true);
     }
 }

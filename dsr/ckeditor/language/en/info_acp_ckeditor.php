@@ -16,7 +16,8 @@ $lang = array_merge($lang, [
     'ACP_DSR_CKE_SETTING'       =>  'Settings',
     'ACP_DSR_CKE_EXPLAIN'       =>  'Improve the text editors used by the user by the powerful CKEditor',
     'ACP_DSR_CKE_SAVED'         =>  'Changes Saved.',
-    'ACP_DSR_CKE_JSON_ERROR'    =>  'The JSON arrangement entered is invalid.',
+    'ACP_DSR_CKE_JSON_ERROR'    =>  'The arrangement entered is invalid.',
+    'ACP_DSR_CKE_CONFIG_SAVED'  =>  '<strong>CKEditor 4 settings changed.</strong>',
 
     // ACP TEXTS
     'ACP_DSR_CKE_STATUS'                        =>  'General settings',
