@@ -17,7 +17,4 @@ class update_module_133 extends \phpbb\db\migration\migration
             ['config.add', ['dsr_cke_force_source_on_mobile', 0]],
         ];
     }
-
-    //phpBB can undo all your changes you do in this particular migration automatically
-    //public function revert_data()
 }

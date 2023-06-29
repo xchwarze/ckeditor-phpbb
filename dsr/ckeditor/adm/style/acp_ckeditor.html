@@ -40,21 +40,25 @@
             </dd>
         </dl>
         <dl>
-            <dt><label>{L_ACP_DSR_CKE_FORCE_PASTE_AS_TEXT_TEXT}</label><br/>
-                <span>{L_ACP_DSR_CKE_FORCE_PASTE_AS_TEXT_DESC}</span></dt>
-            <dd><input type="radio" class="radio" name="dsr_cke_force_paste_as_text" value="1"
-                <!-- IF DSR_CKE_FORCE_PASTE_AS_TEXT -->checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp
-                <input type="radio" class="radio" name="dsr_cke_force_paste_as_text" value="0"
-                <!-- IF not DSR_CKE_FORCE_PASTE_AS_TEXT -->checked="checked"<!-- ENDIF --> /> {L_NO}
-            </dd>
-        </dl>
-        <dl>
             <dt><label>{L_ACP_DSR_CKE_FORCE_SOURCE_ON_MOBILE_TEXT}</label><br/>
                 <span>{L_ACP_DSR_CKE_FORCE_SOURCE_ON_MOBILE_DESC}</span></dt>
             <dd><input type="radio" class="radio" name="dsr_cke_force_source_on_mobile" value="1"
                 <!-- IF DSR_CKE_FORCE_SOURCE_ON_MOBILE -->checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp
                 <input type="radio" class="radio" name="dsr_cke_force_source_on_mobile" value="0"
                 <!-- IF not DSR_CKE_FORCE_SOURCE_ON_MOBILE -->checked="checked"<!-- ENDIF --> /> {L_NO}
+            </dd>
+        </dl>
+        <dl>
+            <dt><label>{L_ACP_DSR_CKE_FORCE_PASTE_AS_TEXT_TEXT}</label><br/>
+                <span>{L_ACP_DSR_CKE_FORCE_PASTE_AS_TEXT_DESC}</span></dt>
+            <dd>
+                <select name="dsr_cke_force_paste_as_text">
+                    {% for PASTE_TYPE in DSR_CKE_FORCE_PASTE_AS_TEXT_TYPES %}
+                    <option value="{{ PASTE_TYPE.VALUE }}" {% if PASTE_TYPE.SELECTED %} selected="selected" {% endif %}>
+                        {{ PASTE_TYPE.NAME }}
+                    </option>
+                    {% endfor %}
+                </select>
             </dd>
         </dl>
     </fieldset>

@@ -32,28 +32,29 @@ class main_listener implements EventSubscriberInterface
 
     public function __construct(
         driver_interface $db,
-        template $template,
-        config $config,
-        db_text $config_text,
-        user $user,
-        language $language,
-        $root_path
-    ) {
-        $this->template         = $template;
-        $this->user             = $user;
-        $this->config           = $config;
-        $this->config_text      = $config_text;
-        $this->db               = $db;
-        $this->language         = $language;
-        $this->root_path        = $root_path;
-        $this->ckeditor_path    = realpath(__DIR__ . '/../styles/all/template/js/ckeditor');
+        template         $template,
+        config           $config,
+        db_text          $config_text,
+        user             $user,
+        language         $language,
+                         $root_path
+    )
+    {
+        $this->template = $template;
+        $this->user = $user;
+        $this->config = $config;
+        $this->config_text = $config_text;
+        $this->db = $db;
+        $this->language = $language;
+        $this->root_path = $root_path;
+        $this->ckeditor_path = realpath(__DIR__ . '/../styles/all/template/js/ckeditor');
     }
 
     static public function getSubscribedEvents()
     {
         return array(
-            'core.display_custom_bbcodes'           => 'initialize_full_editor',
-            'core.viewtopic_modify_page_title'      => 'initialize_quick_reply_editor',
+            'core.display_custom_bbcodes' => 'initialize_full_editor',
+            'core.viewtopic_modify_page_title' => 'initialize_quick_reply_editor',
             //'core.generate_smilies_after'         => 'initialize_full_editor',
             //'core.modify_posting_auth'            => 'initialize_full_editor',
         );
@@ -89,15 +90,14 @@ class main_listener implements EventSubscriberInterface
                 WHERE display_on_posting = 1
                 ORDER BY smiley_order';
         $result = $this->db->sql_query($sql, $this->config['dsr_cke_cache_time']);
-        while ($row = $this->db->sql_fetchrow($result))
-        {
+        while ($row = $this->db->sql_fetchrow($result)) {
             $this->template->assign_block_vars('smiley', array(
-                'SMILEY_CODE'   => $row['code'],
-                'A_SMILEY_CODE' => $row['code'],
-                'SMILEY_IMG'    => $this->root_path . $this->config['smilies_path'] . '/' . $row['smiley_url'],
-                'SMILEY_WIDTH'  => $row['smiley_width'],
-                'SMILEY_HEIGHT' => $row['smiley_height'],
-                'SMILEY_DESC'   => $row['emotion'])
+                    'SMILEY_CODE' => $row['code'],
+                    'A_SMILEY_CODE' => $row['code'],
+                    'SMILEY_IMG' => $this->root_path . $this->config['smilies_path'] . '/' . $row['smiley_url'],
+                    'SMILEY_WIDTH' => $row['smiley_width'],
+                    'SMILEY_HEIGHT' => $row['smiley_height'],
+                    'SMILEY_DESC' => $row['emotion'])
             );
         }
 
@@ -111,35 +111,37 @@ class main_listener implements EventSubscriberInterface
         $editor_height_config_name = $is_viewtopic ? 'dsr_cke_quick_editor_height' : 'dsr_cke_normal_editor_height';
 
         $editor_config = json_encode([
-            'isQuickEditor'         => $is_viewtopic,
-            'maxFontSize'           => $this->config['max_post_font_size'],
-            'useAutoSave'           => (bool)$this->config['dsr_cke_use_auto_save'],
-            'useEmojis'             => (bool)$this->config['dsr_cke_use_emojis'],
-            'forcePasteAsText'      => (bool)$this->config['dsr_cke_force_paste_as_text'],
-            'forceSourceOnMobile'   => (bool)$this->config['dsr_cke_force_source_on_mobile'],
-            'toolbarGroups'         => $this->get_config_text($toolbar_groups_config_name, true),
-            'removeButtons'         => $this->get_config_text($remove_buttons_config_name, false),
-            'editorHeight'          => $this->config[$editor_height_config_name],
-            'imgurClientId'         => $this->config['dsr_cke_imgur_client_id'],
-            'codeSnippetTheme'      => $this->config['dsr_cke_code_snippet_theme'],
-            'codeSnippetLanguages'  => $this->get_config_text('dsr_cke_code_snippet_languages', true),
+            'isQuickEditor' => $is_viewtopic,
+            'maxFontSize' => $this->config['max_post_font_size'],
+            'useAutoSave' => (bool)$this->config['dsr_cke_use_auto_save'],
+            'useEmojis' => (bool)$this->config['dsr_cke_use_emojis'],
+            'forceSourceOnMobile' => (bool)$this->config['dsr_cke_force_source_on_mobile'],
+            'forcePasteAsText' => $this->config['dsr_cke_force_paste_as_text'],
+            'toolbarGroups' => $this->get_config_text($toolbar_groups_config_name, true),
+            'removeButtons' => $this->get_config_text($remove_buttons_config_name, false),
+            'editorHeight' => $this->config[$editor_height_config_name],
+            'imgurClientId' => $this->config['dsr_cke_imgur_client_id'],
+            'codeSnippetTheme' => $this->config['dsr_cke_code_snippet_theme'],
+            'codeSnippetLanguages' => $this->get_config_text('dsr_cke_code_snippet_languages', true),
         ], JSON_HEX_QUOT | JSON_HEX_APOS);
 
         $this->template->assign_vars([
-            'CKE_STATUS'            => (bool)$this->config['dsr_cke_status'],
-            'CKE_LANG'              => $this->get_lang(),
-            'CKE_CONFIG'            => $editor_config,
+            'CKE_STATUS' => (bool)$this->config['dsr_cke_status'],
+            'CKE_LANG' => $this->get_lang(),
+            'CKE_CONFIG' => $editor_config,
         ]);
     }
 
-    public function initialize_full_editor() {
+    public function initialize_full_editor()
+    {
         $this->editor_setup(false);
     }
 
-    public function initialize_quick_reply_editor() {
+    public function initialize_quick_reply_editor()
+    {
         // check if user is login first!
         // TODO: Add guest postings support
-        if ( empty($this->user->data['user_id']) || $this->user->data['user_id'] == ANONYMOUS ) {
+        if (empty($this->user->data['user_id']) || $this->user->data['user_id'] == ANONYMOUS) {
             return;
         }
 

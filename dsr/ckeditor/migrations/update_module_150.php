@@ -17,7 +17,4 @@ class update_module_150 extends \phpbb\db\migration\migration
             ['config.add', ['dsr_cke_quick_editor_height', '20em']],
         ];
     }
-
-    //phpBB can undo all your changes you do in this particular migration automatically
-    //public function revert_data()
 }

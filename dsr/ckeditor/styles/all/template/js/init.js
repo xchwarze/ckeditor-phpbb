@@ -116,8 +116,11 @@ function dsrCkeditorGenSmileyConfig() {
         config.smiley_path = './';
     }
 
-    if (ckeConfig.forcePasteAsText) {
-        config.forcePasteAsPlainText = true;
+    // This field can be a string or a bool
+    if (ckeConfig.forcePasteAsText.length > 1) {
+        config.forcePasteAsPlainText = ckeConfig.forcePasteAsText;
+    } else {
+        config.forcePasteAsPlainText = ckeConfig.forcePasteAsText === '1';
     }
 
     if (ckeConfig.forceSourceOnMobile && (CKEDITOR.env.mobile || CKEDITOR.env.iOS)) {
