@@ -5,7 +5,7 @@
   "homepage": "https://github.com/xchwarze/ckeditor-phpbb",
   "version": "1.6.0",
   "time": "2022-12-30",
-  "license": "GPL-2.0",
+  "license": "GPL-2.0-only",
   "authors": [
     {
       "name": "DSR!",
