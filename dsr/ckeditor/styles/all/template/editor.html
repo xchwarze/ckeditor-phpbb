@@ -55,9 +55,16 @@
     };
 
     (function () {
-        $('#smiley-box').hide();
-        $('#colour_palette').hide();
-        $('#format-buttons').hide();
+        function hideElementById(elementId) {
+          var element = document.getElementById(elementId);
+          if (element) {
+            element.style.display = 'none';
+          }
+        }
+
+        hideElementById('smiley-box');
+        hideElementById('colour_palette');
+        hideElementById('format-buttons');
     })();
 </script>
 {% INCLUDEJS '@dsr_ckeditor/js/init.js' %}
