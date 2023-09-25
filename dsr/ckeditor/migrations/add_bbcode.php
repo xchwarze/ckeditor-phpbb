@@ -16,13 +16,18 @@ class add_bbcode extends \phpbb\db\migration\migration
         ];
     }
 
+    private function bbcode_exists($bbcode_tag)
+    {
+        $sql = 'SELECT bbcode_id FROM ' . $this->table_prefix . 'bbcodes WHERE bbcode_tag = \'' . $this->db->sql_escape($bbcode_tag) . '\'';
+        $result = $this->db->sql_query($sql);
+        $exists = $this->db->sql_fetchfield('bbcode_id');
+        $this->db->sql_freeresult($result);
+
+        return $exists;
+    }
+
     public function addbbcode()
     {
-        $bbcodedata = ['li', 'ul', 's', 'sub', 'sup', 'left', 'right', 'center', 'justify', 'font=', 'ol', 'table', 'td', 'tr', 'hr', 'youtube', 'rtl', 'img', 'ltr',];
-
-        $sql = 'DELETE FROM ' . $this->table_prefix . 'bbcodes WHERE ' . $this->db->sql_in_set('bbcode_tag', $bbcodedata);
-        $this->db->sql_query($sql);
-
         $sql = 'SELECT MAX(bbcode_id) AS max_id FROM ' . $this->table_prefix . 'bbcodes';
         $result = $this->db->sql_query($sql);
 
@@ -41,7 +46,6 @@ class add_bbcode extends \phpbb\db\migration\migration
 
         $custom_bbcodes = [
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'li',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -53,7 +57,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<li>${1}</li>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'ul',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -65,7 +68,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<ul>${1}</ul>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 's',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -77,7 +79,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<span style="text-decoration: line-through;">${1}</span>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'sub',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -89,7 +90,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<style>sub {vertical-align: sub; font-size: smaller;}</style><sub>${1}</sub>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'sup',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -101,7 +101,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<style>sup {vertical-align: super; font-size: smaller;}</style><sup>${1}</sup>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'left',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -113,7 +112,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<div align="left">${1}</div>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'right',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -125,7 +123,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<div align="right">${1}</div>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'center',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -137,7 +134,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<div align="center">${1}</div>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'justify',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -149,7 +145,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<div align="justify">${1}</div>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'font=',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -161,7 +156,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<span style="font-family: ${1};">${2}</span>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'ol',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -173,7 +167,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<ol>${1}</ol>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'table',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -185,7 +178,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<table>${1}</table>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'td',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -197,7 +189,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<td>${1}</td>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'tr',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -209,7 +200,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<tr>${1}</tr>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'hr',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -221,7 +211,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<hr />'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'youtube',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -233,7 +222,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<iframe width="560" height="315" src="https://www.youtube.com/embed/${1}?wmode=opaque" data-youtube-id="${1}" frameborder="0" allowfullscreen></iframe>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'rtl',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -245,7 +233,6 @@ class add_bbcode extends \phpbb\db\migration\migration
                 'second_pass_replace' => '<div style="direction: rtl;">${1}</div>'
             ],
             [
-                'bbcode_id' => ++$bbcode_ids,
                 'bbcode_tag' => 'ltr',
                 'bbcode_helpline' => '',
                 'display_on_posting' => 0,
@@ -260,6 +247,12 @@ class add_bbcode extends \phpbb\db\migration\migration
 
         foreach ($custom_bbcodes as $bbcode)
         {
+            if ($this->bbcode_exists($bbcode['bbcode_tag']))
+            {
+                continue;
+            }
+
+            $bbcode['bbcode_id'] = ++$bbcode_ids;
             $sql = 'INSERT INTO ' . $this->table_prefix . 'bbcodes' . $this->db->sql_build_array('INSERT', $bbcode);
             $this->db->sql_query($sql);
         }
