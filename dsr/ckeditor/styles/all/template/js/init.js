@@ -28,6 +28,18 @@ function dsrCkeditorGenSmileyConfig() {
     return parsed;
 }
 
+function handleDragDrop( e )
+{
+    if( phpbb.plupload ) {
+        // Dispatch drop events to the original message window
+        var orig = document.getElementById( phpbb.plupload.config.drop_element );
+        if( orig ) {
+            orig.dispatchEvent( new DragEvent( e.name, e.data.$ ) );
+            e.cancel();
+        }
+    }
+}
+
 (function () {
     var is_message = document.getElementsByName('message').length !== 0,
         is_signature = document.getElementsByName('signature').length !== 0;
@@ -84,6 +96,14 @@ function dsrCkeditorGenSmileyConfig() {
                         event.data.dataValue = bbcode;
                     }
                 },
+                drag: handleDragDrop,
+                dragend: handleDragDrop,
+                dragenter: handleDragDrop,
+                dragleave: handleDragDrop,
+                dragover: handleDragDrop,
+                dragstart: handleDragDrop,
+                drop: handleDragDrop
+                
             }
         };
 

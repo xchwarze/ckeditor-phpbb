@@ -55,6 +55,7 @@ class main_listener implements EventSubscriberInterface
         return array(
             'core.display_custom_bbcodes' => 'initialize_full_editor',
             'core.viewtopic_modify_page_title' => 'initialize_quick_reply_editor',
+            'core.posting_modify_message_text' => 'fix_unicode_spaces'
             //'core.generate_smilies_after'         => 'initialize_full_editor',
             //'core.modify_posting_auth'            => 'initialize_full_editor',
         );
@@ -154,5 +155,14 @@ class main_listener implements EventSubscriberInterface
         $this->language->add_lang('posting');
 
         $this->editor_setup(true);
+    }
+
+    public function fix_unicode_spaces( $e )
+    {
+        // Replace unicode non-breaking spaces $C2A0 with ASCII.
+        // Without this, certain control codes (eg: smileys) won't parse correctly.
+        $message_parser = $e[ 'message_parser' ];
+        $message_parser->message = str_replace( "\xc2\xa0", ' ', $message_parser->message );
+        $e[ 'message_parser' ] = $message_parser;
     }
 }
