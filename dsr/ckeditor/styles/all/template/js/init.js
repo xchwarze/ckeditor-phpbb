@@ -28,6 +28,21 @@ function dsrCkeditorGenSmileyConfig() {
     return parsed;
 }
 
+function handleDragDrop( e ) {
+    if( phpbb.plupload ) {
+        // Dispatch drop events to the original message window
+        var orig = document.getElementById( phpbb.plupload.config.drop_element );
+        if( orig ) {
+            orig.dispatchEvent( new DragEvent( e.name, e.data.$ ) );
+            e.cancel();
+        }
+    }
+}
+
+function escapeRegExVar( string ) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 (function () {
     var is_message = document.getElementsByName('message').length !== 0,
         is_signature = document.getElementsByName('signature').length !== 0;
@@ -84,6 +99,22 @@ function dsrCkeditorGenSmileyConfig() {
                         event.data.dataValue = bbcode;
                     }
                 },
+                getData: function( event ) {
+                    var bbcode = event.data.dataValue;
+                    for( let [key, value] of Object.entries( this.config.bbcode_smileyMap ) ) {
+                        const re = new RegExp( '(?<!^)([^ \n])(' + escapeRegExVar( value ) + ')');
+                        bbcode = bbcode.replace( re, '$1 $2' );
+                    }
+                    event.data.dataValue = bbcode;
+                },
+                drag: handleDragDrop,
+                dragend: handleDragDrop,
+                dragenter: handleDragDrop,
+                dragleave: handleDragDrop,
+                dragover: handleDragDrop,
+                dragstart: handleDragDrop,
+                drop: handleDragDrop
+                
             }
         };
 
