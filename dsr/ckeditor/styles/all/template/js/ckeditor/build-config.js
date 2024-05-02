@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+ * @license Copyright (c) 2003-2024, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license/
  */
 
@@ -13,10 +13,10 @@
  * (1) https://ckeditor.com/cke4/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) https://ckeditor.com/cke4/builder/84f27cdf1008e68cd1bd75dcb50dd1d7
+ * (2) https://ckeditor.com/cke4/builder/73886c2c5393dfb5cae7ac68dc3976f6
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) https://ckeditor.com/cke4/builder/download/84f27cdf1008e68cd1bd75dcb50dd1d7
+ * (3) https://ckeditor.com/cke4/builder/download/73886c2c5393dfb5cae7ac68dc3976f6
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -43,6 +43,7 @@ var CKBUILDER_CONFIG = {
 		'.travis.yml',
 		'bender-err.log',
 		'bender-out.log',
+		'bender-runner.config.json',
 		'bender.ci.js',
 		'bender.js',
 		'dev',
