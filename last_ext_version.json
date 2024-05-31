@@ -1,9 +1,9 @@
 {
 	"stable": {
 		"1.7": {
-			"current": "1.7.0",
+			"current": "1.7.1",
 			"announcement": "https://www.phpbb.com/community/viewtopic.php?p=15963538#p15963538",
-			"download": "https://github.com/xchwarze/ckeditor-phpbb/archive/refs/tags/v1.7.0.zip",
+			"download": "https://github.com/xchwarze/ckeditor-phpbb/archive/refs/tags/v1.7.1.zip",
 			"eol": null,
 			"security": false
 		}

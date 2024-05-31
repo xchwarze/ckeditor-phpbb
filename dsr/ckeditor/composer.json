@@ -3,8 +3,8 @@
   "type": "phpbb-extension",
   "description": "CKEditor 4",
   "homepage": "https://github.com/xchwarze/ckeditor-phpbb",
-  "version": "1.7.0",
-  "time": "2024-05-02",
+  "version": "1.7.1",
+  "time": "2024-05-30",
   "license": "GPL-2.0-only",
   "authors": [
     {
